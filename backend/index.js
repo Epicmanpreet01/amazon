@@ -695,8 +695,29 @@ itemList.forEach(function(item) {
                 </select>
             </div>
             
-            <button class="add-to-cart">Add to Cart</button>
+            <div class="add-message" id="${item.id}-message">
+              <img src="assets/img/product/checkmark.png">
+              Added
+            </div>
+            <button class="add-to-cart" id="${item.id}">Add to Cart</button>
         </div>`;
 });
 
 
+function showAddMessage(id){
+  document.getElementById(id+"-message").style.visibility = 'visible';
+}
+
+function fadeAddMessage(id){
+  document.getElementById(id+"-message").style.visibility = 'hidden';
+}
+
+document.querySelectorAll('.add-to-cart').forEach(function(element) {
+  element.addEventListener('click', function() {
+    id = this.id;
+    showAddMessage(id);
+    const addMessageTimeOutId = setTimeout(function() {
+      fadeAddMessage(id);
+    }, 3000);
+  })
+})
