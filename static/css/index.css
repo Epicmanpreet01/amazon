@@ -210,11 +210,21 @@ header{
 }
 
 .rating{
+    cursor: default;
     display: flex;
     width: 100%;
     align-items: center;
     column-gap: 10px;
     margin-bottom: 8px;
+}
+
+.rating-star-container{
+    cursor: pointer;
+    width: 90px;
+}
+
+.rating-star{
+    width: 100%;
 }
 
 .rating-number{

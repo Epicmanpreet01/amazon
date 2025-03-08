@@ -664,20 +664,16 @@ itemList.forEach(function(item) {
     const itemGrid = document.querySelector('.item-grid');
     itemGrid.innerHTML += `<div class="item">
             <div class="img-container">
-                <img src="assets/img/${item.image}" alt="item-pic" class="item-img">
+                <img src="assets/img/product/${item.image}" alt="item-pic" class="item-img">
             </div>
             <div class="item-info-container">
                 <p class="item-name">${item.name}</p>
             </div>
             <div class="rating">
-                <div class="rating-stars">
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span> 
-                </div>
-                <p class="rating-number">${item.rating.count}</p>
+              <div class="rating-star-container">
+                <img src="assets/img/ratings/rating-${item.rating.stars*10}.png" class="rating-star">
+              </div>
+              <p class="rating-number">${item.rating.count}</p>
             </div>
             
             <div class="price-container">
@@ -702,3 +698,5 @@ itemList.forEach(function(item) {
             <button class="add-to-cart">Add to Cart</button>
         </div>`;
 });
+
+
