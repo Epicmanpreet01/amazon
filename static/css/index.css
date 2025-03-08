@@ -96,6 +96,10 @@ header{
     border: 1px solid rgb(19, 25, 33);
 }
 
+.return{
+    margin-right: 3px;
+}
+
 .return-info{
     text-align: start;
     font-size: 14px;
