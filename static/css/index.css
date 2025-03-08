@@ -1,0 +1,356 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    background-color: rgb(19, 25, 33);
+    position: fixed;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.logo{
+    margin-left: 15px;
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 10px;
+    margin-right: 70px;
+    border: 1px solid rgb(19, 25, 33);
+}
+
+.logo:hover{
+    border: 1px solid white;
+}
+
+.logo-img{
+    width: 100px
+}
+
+
+.search{
+    flex: 1;
+    margin-top: 5px;
+    max-width: 850px;
+    display: flex;
+    margin-right: 18px;
+}
+
+.search-bar{
+    width: 60%;
+    flex: 1;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: 1px solid gray;
+    padding-left: 15px;
+    font-size: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: gray;
+}
+
+.search-btn{
+    cursor: pointer;
+    border: none;
+    padding-top: 4px;
+    padding-right: 11px;
+    padding-left: 11px;
+    background-color: rgb(254, 189, 105);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-left: -1px;
+}
+
+.search-btn:hover{
+    opacity: 0.9;
+}
+
+.search-btn:active{
+    opacity: 0.8;
+}
+
+.search-btn img{
+    width: 25px;
+    height: 25px;
+}
+
+.order-section{
+    display: flex;
+    margin: 5px;
+}
+
+
+.return, .cart{
+    background-color: rgb(19, 25, 33);
+    border: 1px solid rgb(19, 25, 33);
+}
+
+.return-info{
+    text-align: start;
+    font-size: 14px;
+    color: white;
+}
+
+.return-info span{
+    display: block;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.return:hover, .cart:hover{
+    border: 1px solid white;
+}
+
+.return p{
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.cart{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.cart img{
+    width: 50px;
+}
+
+.cart-item-no{
+    font-weight: bold;
+    position: absolute;
+    top: -17px;
+    left: 30%;
+    font-size: 17px;
+    color: rgb(255, 167, 53);
+}
+
+.cart-text{
+    font-weight: bold;
+    display: inline;
+    font-size: 17px;
+    color: white;
+}
+
+
+.checked {
+    color: orange;
+}
+
+.item-grid{
+    margin-top: 60px;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.item-grid p{
+    margin: 0;
+}
+
+.item{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px;
+    margin-left: -1px;
+}
+
+.item::after{
+    content: "";
+    position: absolute;
+    top: 0px;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.1);
+    width: 1px;
+}
+
+.item::before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.1);
+    height: 1px;
+}
+
+.img-container{
+    display: flex;
+    align-items: start;
+    flex: 1;
+    padding-left: 10px;
+    padding-right: 10px;
+    max-width: 170px;
+    max-height: 170px;
+    margin-bottom: 15px;
+}
+
+.item-img{
+    object-fit: cover;
+    object-position: center;
+    flex: 1;
+    width: 99%;
+    height: 85%;
+    object-fit: contain;
+}
+
+.rating{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    column-gap: 10px;
+    margin-bottom: 8px;
+}
+
+.rating-number{
+    color: #017cb6;
+}
+
+.item-info-container{
+    height: 30px;
+    font-size: 16px;
+    color: gray;
+    margin-bottom: 10px;
+}
+
+.item-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limits to two lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.price-container{
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.price{
+    font-weight: bold;
+}
+
+.item-selection-container{
+    width: 100%;
+}
+
+.item-no{
+    cursor: pointer;
+    padding: 3px;
+    border-radius: 5px;
+    color: rgb(23,23,23);
+    background-color: rgb(240, 240, 240);
+    border: 1px solid rgb(240,240,240);
+    box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+    margin-bottom: 50px;
+}
+
+.item-no-toggle{
+    border: 1px solid rgb(254, 189, 105);
+}
+
+
+.add-to-cart{
+    cursor: pointer;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    width: 100%;    
+    padding-right: 30px;
+    border-radius: 50px;
+    border: 1px solid rgb(252, 210, 0);
+    background-color: rgb(255, 216, 20);
+}
+
+.add-to-cart:hover{
+    background-color: rgb(227, 194, 33);
+}
+
+.add-to-cart:active{
+    background-color: rgb(197, 170, 33);
+}
+
+@media (max-width: 570px) {
+    .item-grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .img-container{
+        padding-left: 30px;
+    }
+}
+
+@media (min-width : 570.1px) and (max-width: 700px) {
+    .item-grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .img-container{
+        padding-left: 20px;
+    }
+}
+
+@media (min-width: 700.1px) and (max-width: 1000px){
+    .item-grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .img-container{
+        padding-left: 18px;
+    }
+}
+
+
+@media (min-width: 1000.1px) and (max-width: 1200px) {
+    .item-grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 1200.1px) and (max-width: 1400px) {
+    .item-grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 1400.1px) and (max-width: 1600px) {
+    .item-grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 1600.1px) and (max-width: 1800px) {
+    .item-grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 1800.1px) {
+    .item-grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+}
