@@ -660,115 +660,59 @@ const itemList = JSON.parse(localStorage.getItem('items')) || [
 ];
 
 
-function addItems(item, key) {
-  if(key) {
-    if(item.name.toLowerCase().includes(key.toLowerCase())) {
-      console.log(item.name);
-      const itemGrid = document.querySelector('.item-grid');
-      itemGrid.innerHTML += `<div class="item" id="${item.id}">
-              <div class="img-container">
-                  <img src="assets/img/product/${item.image}" alt="item-pic" class="item-img">
-              </div>
-              <div class="item-info-container">
-                  <p class="item-name">${item.name}</p>
-              </div>
-              <div class="rating">
-                <div class="rating-star-container">
-                  <img src="assets/img/ratings/rating-${item.rating.stars*10}.png" class="rating-star">
-                </div>
-                <p class="rating-number">${item.rating.count}</p>
-              </div>
-              
-              <div class="price-container">
-                  <p class="price">$${(item.priceCents/100).toFixed(2)}</p>
-              </div>
-              
-              <div class="item-selection-container">
-                  <select name="item-no" class="item-no" id="${item.id+'-selector'}">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
-                  </select>
-              </div>
-              
-              <div class="add-message" id="${item.id+'-message'}">
-                <img src="assets/img/product/checkmark.png">
-                Added
-              </div>
-              <button class="add-to-cart" id="${item.id}">Add to Cart</button>
-          </div>`;
-    }
-
-  } else{
-    const itemGrid = document.querySelector('.item-grid');
-    itemGrid.innerHTML += `<div class="item" id="${item.id}">
-            <div class="img-container">
-                <img src="assets/img/product/${item.image}" alt="item-pic" class="item-img">
+function addItems(item) {
+  return `<div class="item" id="${item.id}">
+          <div class="img-container">
+              <img src="assets/img/product/${item.image}" alt="item-pic" class="item-img">
+          </div>
+          <div class="item-info-container">
+              <p class="item-name">${item.name}</p>
+          </div>
+          <div class="rating">
+            <div class="rating-star-container">
+              <img src="assets/img/ratings/rating-${item.rating.stars * 10}.png" class="rating-star">
             </div>
-            <div class="item-info-container">
-                <p class="item-name">${item.name}</p>
-            </div>
-            <div class="rating">
-              <div class="rating-star-container">
-                <img src="assets/img/ratings/rating-${item.rating.stars*10}.png" class="rating-star">
-              </div>
-              <p class="rating-number">${item.rating.count}</p>
-            </div>
-            
-            <div class="price-container">
-                <p class="price">$${(item.priceCents/100).toFixed(2)}</p>
-            </div>
-            
-            <div class="item-selection-container">
-                <select name="item-no" class="item-no" id="${item.id+'-selector'}">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
-            </div>
-            
-            <div class="add-message" id="${item.id+'-message'}">
-              <img src="assets/img/product/checkmark.png">
-              Added
-            </div>
-            <button class="add-to-cart" id="${item.id}">Add to Cart</button>
-        </div>`;
-  }
-
-  if(document.querySelector('.item-grid').innerHTML === ''){
-    document.querySelector('.item-grid').innerHTML = 'No products matched your search.';
-  }
+            <p class="rating-number">${item.rating.count}</p>
+          </div>
+          <div class="price-container">
+              <p class="price">$${(item.priceCents / 100).toFixed(2)}</p>
+          </div>
+          <div class="item-selection-container">
+              <select name="item-no" class="item-no" id="${item.id + '-selector'}">
+                  ${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}
+              </select>
+          </div>
+          <div class="add-message" id="${item.id + '-message'}">
+            <img src="assets/img/product/checkmark.png">
+            Added
+          </div>
+          <button class="add-to-cart" id="${item.id}">Add to Cart</button>
+      </div>`;
 }
 
-itemList.forEach(function(item) {
-  addItems(item);
-});
+function searchItems(key) {
+  const itemGrid = document.querySelector('.item-grid');
+  let results = "";
 
-document.querySelector('.search-bar').addEventListener('keydown', function(event) {
-  const searchKey = document.querySelector('.search-bar').value.trim().toLowerCase();
-  
+  itemList.forEach((item) => {
+    if (!key || item.name.toLowerCase().includes(key.toLowerCase())) {
+      results += addItems(item);
+    }
+  });
+
+  itemGrid.innerHTML = results || '<p class="no-results">No matches found for your search.</p>';
+
+  document.querySelector('.search-bar').value = "";
+}
+document.querySelector('.item-grid').innerHTML = itemList.map(addItems).join("");
+
+document.querySelector('.search-bar').addEventListener('keydown', function (event) {
   if (event.key === 'Enter') {
-    const itemGrid = document.querySelector('.item-grid');
-    itemGrid.innerHTML = '';
-
-    itemList.forEach(function(item) {
-      addItems(item, searchKey);
-    });
+    const searchKey = this.value.trim().toLowerCase();
+    searchItems(searchKey);
   }
+
+  
 });
 
 /*Add Message*/
