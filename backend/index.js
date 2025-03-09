@@ -99,6 +99,25 @@ document.querySelectorAll('.add-to-cart').forEach(function(element) {
 
 let selectorFlag = []
 
+function itemSelector(id) {
+  if(!selectorFlag.includes(id) && selectorFlag.length === 0){
+    document.getElementById(id).style.border = '1px solid orange';
+    selectorFlag.push(id);
+  } else if(!selectorFlag.includes(id) && selectorFlag.length !== 0){
+    emptySelectorFlag();
+    document.getElementById(id).style.border = '1px solid orange';
+    selectorFlag.push(id);
+  } else{
+    document.getElementById(id).style.border = '1px solid rgb(240,240,240)';
+    selectorFlag.pop();
+  }
+}
+
+function emptySelectorFlag() {
+  const lastElement = selectorFlag.pop();
+  document.getElementById(lastElement).style.border = '1px solid rgb(240,240,240)';
+}
+
 
 document.querySelectorAll('.item-no').forEach(function (element) {
   element.addEventListener('click', function() {
@@ -120,21 +139,3 @@ document.body.addEventListener('click', function(event) {
   }
 });
 
-function itemSelector(id) {
-  if(!selectorFlag.includes(id) && selectorFlag.length === 0){
-    document.getElementById(id).style.border = '1px solid orange';
-    selectorFlag.push(id);
-  } else if(!selectorFlag.includes(id) && selectorFlag.length !== 0){
-    emptySelectorFlag();
-    document.getElementById(id).style.border = '1px solid orange';
-    selectorFlag.push(id);
-  } else{
-    document.getElementById(id).style.border = '1px solid rgb(240,240,240)';
-    selectorFlag.pop();
-  }
-}
-
-function emptySelectorFlag() {
-  const lastElement = selectorFlag.pop();
-  document.getElementById(lastElement).style.border = '1px solid rgb(240,240,240)';
-}
