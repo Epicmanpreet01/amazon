@@ -694,7 +694,7 @@ itemList.forEach(function(item) {
                 </select>
             </div>
             
-            <div class="add-message" id="${item.id}-message">
+            <div class="add-message" id="${item.id+'-message'}">
               <img src="assets/img/product/checkmark.png">
               Added
             </div>
@@ -705,24 +705,32 @@ itemList.forEach(function(item) {
 
 /*Add Message*/
 
+let addMessageTimeOutId;
+
 function showAddMessage(id){
-  document.getElementById(id+"-message").style.visibility = 'visible';
+  document.getElementById(id+"-message").classList.remove('fade-message');
+  document.getElementById(id+'-message').classList.add('visible-message');
 }
 
 function fadeAddMessage(id){
-  document.getElementById(id+"-message").style.visibility = 'hidden';
+  document.getElementById(id+'-message').classList.remove('visible-message');
+  document.getElementById(id+"-message").classList.add('fade-message');
 }
 
 document.querySelectorAll('.add-to-cart').forEach(function(element) {
   element.addEventListener('click', function() {
-    id = this.id;
+    const id = this.id;
     showAddMessage(id);
+    clearTimeout(addMessageTimeOutId)
     document.getElementById(id+'-selector').value = '1';
-    const addMessageTimeOutId = setTimeout(function() {
+    addMessageTimeOutId = setTimeout(function() {
       fadeAddMessage(id);
     }, 3000);
+    
   })
 })
+
+
 
 /*Item Selector*/
 
@@ -736,13 +744,15 @@ document.querySelectorAll('.item-no').forEach(function (element) {
 })
 
 document.body.addEventListener('keydown', function(event) {
-  if(event.key === 'Escape'){
-    emptySelectorFlag();
+  if(selectorFlag.length !== 0){
+    if(event.key === 'Escape'){
+      emptySelectorFlag();
+    }
   }
 })
 
 document.body.addEventListener('click', function(event) {
-  if(!selectorFlag.includes(event.target.id)) {
+  if(!selectorFlag.includes(event.target.id) && selectorFlag.length !== 0) {
     emptySelectorFlag();
   }
 })

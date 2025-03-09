@@ -314,9 +314,47 @@ header{
     margin-bottom: 7px;
 }
 
+.visible-message{
+    visibility: visible;
+    margin-left: 4px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 20px;
+    column-gap: 5px;
+    color: rgb(6, 125, 98);
+    font-size: 16px;
+    margin-bottom: 7px;
+}
+
+.fade-message{
+    margin-left: 4px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 20px;
+    column-gap: 5px;
+    color: rgb(6, 125, 98);
+    font-size: 16px;
+    margin-bottom: 7px;
+    animation: fadeOut 1s ease-out;
+}
 
 .add-message img{
     height: 100%;
+}
+
+
+@keyframes fadeOut {
+    0%{
+        opacity: 1;
+        visibility: visible;
+    }
+
+    100%{
+        visibility: hidden;
+        opacity: 0;
+    }
 }
 
 @media (max-width: 570px) {
