@@ -16,15 +16,15 @@ function addItems(item) {
               <p class="price">$${(item.priceCents / 100).toFixed(2)}</p>
           </div>
           <div class="item-selection-container">
-              <select name="item-no" class="item-no" id="${item.id + '-selector'}">
+              <select name="item-no" class="item-no item-no-${item.id}">
                   ${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}
               </select>
           </div>
-          <div class="add-message" id="${item.id + '-message'}">
+          <div class="add-message add-message-${item.id}" id="${item.id + '-message'}">
             <img src="assets/img/product/checkmark.png">
             Added
           </div>
-          <button class="add-to-cart" id="${item.id}-btn" data-product-id="${item.id}">Add to Cart</button>
+          <button class="add-to-cart" data-product-id="${item.id}">Add to Cart</button>
       </div>`;
 }
 
@@ -63,35 +63,26 @@ document.querySelector('.search-btn').addEventListener('click', function() {
 let addMessageTimeOutId;
 
 function showAddMessage(id){
-  document.getElementById(id+"-message").classList.remove('fade-message');
-  document.getElementById(id+'-message').classList.add('visible-message');
+  document.querySelector(`.add-message-${id}`).classList.add('visible-message');
 }
 
 function fadeAddMessage(id){
-  document.getElementById(id+'-message').classList.remove('visible-message');
-  document.getElementById(id+"-message").classList.add('fade-message');
+  document.querySelector('.add-message-'+id).classList.remove('visible-message');
 }
 
 document.querySelectorAll('.add-to-cart').forEach(function(element) {
   element.addEventListener('click', function() {
-    const id = this.id.replace("-btn","");
-    showAddMessage(id);
-    addMessageTimeOutId = setTimeout(function() {
-      fadeAddMessage(id);
-    }, 2000);
-
     const productId = this.dataset.productId;
-    const quantity = parseInt(document.getElementById(id+'-selector').value);
-    document.getElementById(id+'-selector').value = '1';
-
+    showAddMessage(productId);
+    addMessageTimeOutId = setTimeout(function() {
+      fadeAddMessage(productId);
+    }, 2000);
+    const quantity = parseInt(document.querySelector('.item-no-'+productId).value);
+    document.getElementById(productId).value = '1';
     addCart(productId,quantity);
-
   })
   clearTimeout(addMessageTimeOutId);
 })
-
-
-
 
 /*cart*/
 
