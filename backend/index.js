@@ -659,7 +659,54 @@ const itemList = JSON.parse(localStorage.getItem('items')) || [
       }
 ];
 
-itemList.forEach(function(item) {
+
+function addItems(item, key) {
+  if(key) {
+    if(item.name.toLowerCase().includes(key.toLowerCase())) {
+      console.log(item.name);
+      const itemGrid = document.querySelector('.item-grid');
+      itemGrid.innerHTML += `<div class="item" id="${item.id}">
+              <div class="img-container">
+                  <img src="assets/img/product/${item.image}" alt="item-pic" class="item-img">
+              </div>
+              <div class="item-info-container">
+                  <p class="item-name">${item.name}</p>
+              </div>
+              <div class="rating">
+                <div class="rating-star-container">
+                  <img src="assets/img/ratings/rating-${item.rating.stars*10}.png" class="rating-star">
+                </div>
+                <p class="rating-number">${item.rating.count}</p>
+              </div>
+              
+              <div class="price-container">
+                  <p class="price">$${(item.priceCents/100).toFixed(2)}</p>
+              </div>
+              
+              <div class="item-selection-container">
+                  <select name="item-no" class="item-no" id="${item.id+'-selector'}">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                  </select>
+              </div>
+              
+              <div class="add-message" id="${item.id+'-message'}">
+                <img src="assets/img/product/checkmark.png">
+                Added
+              </div>
+              <button class="add-to-cart" id="${item.id}">Add to Cart</button>
+          </div>`;
+    }
+
+  } else{
     const itemGrid = document.querySelector('.item-grid');
     itemGrid.innerHTML += `<div class="item" id="${item.id}">
             <div class="img-container">
@@ -700,8 +747,29 @@ itemList.forEach(function(item) {
             </div>
             <button class="add-to-cart" id="${item.id}">Add to Cart</button>
         </div>`;
+  }
+
+  if(document.querySelector('.item-grid').innerHTML === ''){
+    document.querySelector('.item-grid').innerHTML = 'No products matched your search.';
+  }
+}
+
+itemList.forEach(function(item) {
+  addItems(item);
 });
 
+document.querySelector('.search-bar').addEventListener('keydown', function(event) {
+  const searchKey = document.querySelector('.search-bar').value.trim().toLowerCase();
+  
+  if (event.key === 'Enter') {
+    const itemGrid = document.querySelector('.item-grid');
+    itemGrid.innerHTML = '';
+
+    itemList.forEach(function(item) {
+      addItems(item, searchKey);
+    });
+  }
+});
 
 /*Add Message*/
 
@@ -775,3 +843,4 @@ function emptySelectorFlag() {
   const lastElement = selectorFlag.pop();
   document.getElementById(lastElement).style.border = '1px solid rgb(240,240,240)';
 }
+
