@@ -659,10 +659,9 @@ const itemList = JSON.parse(localStorage.getItem('items')) || [
       }
 ];
 
-
 itemList.forEach(function(item) {
     const itemGrid = document.querySelector('.item-grid');
-    itemGrid.innerHTML += `<div class="item">
+    itemGrid.innerHTML += `<div class="item" id="${item.id}">
             <div class="img-container">
                 <img src="assets/img/product/${item.image}" alt="item-pic" class="item-img">
             </div>
@@ -681,7 +680,7 @@ itemList.forEach(function(item) {
             </div>
             
             <div class="item-selection-container">
-                <select name="item-no" class="item-no">
+                <select name="item-no" class="item-no" id="${item.id+'-selector'}">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -704,6 +703,8 @@ itemList.forEach(function(item) {
 });
 
 
+/*Add Message*/
+
 function showAddMessage(id){
   document.getElementById(id+"-message").style.visibility = 'visible';
 }
@@ -716,8 +717,51 @@ document.querySelectorAll('.add-to-cart').forEach(function(element) {
   element.addEventListener('click', function() {
     id = this.id;
     showAddMessage(id);
+    document.getElementById(id+'-selector').value = '1';
     const addMessageTimeOutId = setTimeout(function() {
       fadeAddMessage(id);
     }, 3000);
   })
 })
+
+/*Item Selector*/
+
+let selectorFlag = []
+
+
+document.querySelectorAll('.item-no').forEach(function (element) {
+  element.addEventListener('click', function() {
+    itemSelector(this.id);
+  })
+})
+
+document.body.addEventListener('keydown', function(event) {
+  if(event.key === 'Escape'){
+    emptySelectorFlag();
+  }
+})
+
+document.body.addEventListener('click', function(event) {
+  if(!selectorFlag.includes(event.target.id)) {
+    emptySelectorFlag();
+  }
+})
+
+function itemSelector(id) {
+  if(!selectorFlag.includes(id) && selectorFlag.length === 0){
+    document.getElementById(id).style.border = '1px solid orange';
+    selectorFlag.push(id);
+  } else if(!selectorFlag.includes(id) && selectorFlag.length !== 0){
+    emptySelectorFlag();
+    document.getElementById(id).style.border = '1px solid orange';
+    selectorFlag.push(id);
+  } else{
+    document.getElementById(id).style.border = '1px solid rgb(240,240,240)';
+    selectorFlag.pop();
+  }
+};
+
+function emptySelectorFlag() {
+  const lastElement = selectorFlag.pop();
+  document.getElementById(lastElement).style.border = '1px solid rgb(240,240,240)';
+}
