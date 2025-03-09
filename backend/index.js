@@ -24,7 +24,7 @@ function addItems(item) {
             <img src="assets/img/product/checkmark.png">
             Added
           </div>
-          <button class="add-to-cart" id="${item.id}">Add to Cart</button>
+          <button class="add-to-cart" id="${item.id}-btn" data-product-id="${item.id}">Add to Cart</button>
       </div>`;
 }
 
@@ -55,7 +55,10 @@ document.querySelector('.search-btn').addEventListener('click', function() {
   searchItems(document.querySelector('.search-bar').value.trim().toLowerCase());
 });
 
-/*Add Message*/
+/*Add to cart*/
+
+
+/*add message*/
 
 let addMessageTimeOutId;
 
@@ -71,18 +74,59 @@ function fadeAddMessage(id){
 
 document.querySelectorAll('.add-to-cart').forEach(function(element) {
   element.addEventListener('click', function() {
-    const id = this.id;
+    const id = this.id.replace("-btn","");
     showAddMessage(id);
-    clearTimeout(addMessageTimeOutId)
-    document.getElementById(id+'-selector').value = '1';
     addMessageTimeOutId = setTimeout(function() {
       fadeAddMessage(id);
-    }, 3000);
-    
+    }, 2000);
+
+    const productId = this.dataset.productId;
+    const quantity = parseInt(document.getElementById(id+'-selector').value);
+    document.getElementById(id+'-selector').value = '1';
+
+    addCart(productId,quantity);
+
   })
+  clearTimeout(addMessageTimeOutId);
 })
 
 
+
+
+/*cart*/
+
+function addCart(id,quantity){
+  let inCart = false
+
+  cart.forEach((item) => {
+    if(item.productId === id) {
+      item.quantity +=quantity;
+      inCart = true;
+    }
+  })
+
+  if(!inCart) {
+    cart.push({
+      productId: id,
+      quantity: quantity
+    })
+  }
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+
+  updateCartQuantity();
+}
+
+
+
+const updateCartQuantity = () =>{
+  let cartQuantity = 0;
+  cart.forEach((item) => {
+    cartQuantity +=item.quantity;
+  })
+
+  document.querySelector('.cart-item-no').innerText = cartQuantity;
+} 
 
 /*Item Selector*/
 
@@ -93,7 +137,7 @@ document.querySelectorAll('.item-no').forEach(function (element) {
   element.addEventListener('click', function() {
     itemSelector(this.id);
   })
-})
+});
 
 document.body.addEventListener('keydown', function(event) {
   if(selectorFlag.length !== 0){
@@ -101,13 +145,13 @@ document.body.addEventListener('keydown', function(event) {
       emptySelectorFlag();
     }
   }
-})
+});
 
 document.body.addEventListener('click', function(event) {
   if(!selectorFlag.includes(event.target.id) && selectorFlag.length !== 0) {
     emptySelectorFlag();
   }
-})
+});
 
 function itemSelector(id) {
   if(!selectorFlag.includes(id) && selectorFlag.length === 0){
@@ -121,10 +165,9 @@ function itemSelector(id) {
     document.getElementById(id).style.border = '1px solid rgb(240,240,240)';
     selectorFlag.pop();
   }
-};
+}
 
 function emptySelectorFlag() {
   const lastElement = selectorFlag.pop();
   document.getElementById(lastElement).style.border = '1px solid rgb(240,240,240)';
 }
-
