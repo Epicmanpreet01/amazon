@@ -445,4 +445,8 @@ main {
         margin-top: 18px;
         width: 100px;
     }
+
+    .item-info{
+        max-width: 200px;
+    }
 }
