@@ -1,8 +1,4 @@
-localStorage.removeItem('cart');
-
-export const cart = JSON.parse(localStorage.getItem('cart')) || [
-
-];
+export const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 export function addCart(id,quantity){
     let inCart = false
