@@ -1,5 +1,5 @@
-import {cart} from '../data/cart.js';
-import {itemList} from '../data/products.js';
+import { cart,priceList } from '../data/cart.js';
+import { itemList } from '../data/products.js';
 
 
 function addCart(product, quantity) {
@@ -16,7 +16,7 @@ function addCart(product, quantity) {
                         <div class="item-info">
                             <p class="item-name">${product.name}</p>
 
-                            <p class="item-price">$${product.priceCents/100}</p>
+                            <p class="item-price">$${product.priceCents / 100}</p>
 
                             <div class="item-quantity-container">
                                 <p class="item-quantity">Quantity: ${quantity}</p>
@@ -115,18 +115,61 @@ function addCart(product, quantity) {
                 </div>`
 }
 
-cart.forEach(function(cartItem){
-    const productId = cartItem.productId;
-    const cartItems = document.querySelector('.cart-items');
-    let product = {};
 
-    itemList.forEach(function(item){
-        if(productId === item.id){
-            product = item;
-            return;
-        }
+function loadHeader(quantity) {
+    document.querySelector('.item-no').innerHTML = quantity;
+}
+
+function loadOrderSummary(totalItemPrice, quantity) {
+    if (!totalItemPrice) {
+        return;
+    }
+    const shippingPrice = 998;
+    const totalBeforeTax = totalItemPrice + shippingPrice;
+    const estimatedTax = totalBeforeTax * 0.1;
+    const orderTotal = totalBeforeTax + estimatedTax;
+
+
+    document.querySelector('.total-item-no').innerHTML = quantity;
+
+    document.querySelector('.total-item-price').innerHTML = (totalItemPrice/100).toFixed(2);
+
+    document.querySelector('.shipping-price').innerHTML = (shippingPrice/100).toFixed(2);
+
+    document.querySelector('.total-before-tax-price').innerHTML = (totalBeforeTax/100).toFixed(2);
+
+    document.querySelector('.tax-price').innerHTML = (estimatedTax/100).toFixed(2);
+
+    document.querySelector('.total-price').innerHTML = (Math.round(orderTotal)/100).toFixed(2);
+
+    console.log(Math.round(orderTotal)/100);
+
+}
+console.log();
+
+const checkOutLoader = function () {
+
+    let totalItemPrice = 0;
+    let quantity = 0
+
+    cart.forEach(function (cartItem) {
+        const productId = cartItem.productId;
+        const cartItems = document.querySelector('.cart-items');
+        let product = {};
+
+        itemList.forEach(function (item) {
+            if (productId === item.id) {
+                product = item;
+                return;
+            }
+        })
+        cartItems.innerHTML += addCart(product, cartItem.quantity);
+        totalItemPrice += product.priceCents * cartItem.quantity;
+        quantity += cartItem.quantity;
     })
+    loadHeader(quantity);
+    loadOrderSummary(totalItemPrice, quantity);
+}
 
-    cartItems.innerHTML += addCart(product,cartItem.quantity);
-    
-})
+
+checkOutLoader();

@@ -80,6 +80,8 @@ const updateCartQuantity = () =>{
   document.querySelector('.cart-item-no').innerText = cartQuantity;
 } 
 
+document.addEventListener("DOMContentLoaded", updateCartQuantity);
+
 document.querySelectorAll('.add-to-cart').forEach(function(element) {
   element.addEventListener('click', function() {
     const productId = this.dataset.productId;

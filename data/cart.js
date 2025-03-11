@@ -1,5 +1,7 @@
 export const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
+export const priceList = JSON.parse(localStorage.getItem('price')) || [];
+
 export function addCart(id,quantity){
     let inCart = false
   
