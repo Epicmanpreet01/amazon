@@ -1,6 +1,6 @@
 import {cart, addCart} from '../data/cart.js'
 import {itemList} from '../data/products.js'
-
+import {normalisePrice} from './utils.js'
 
 function addItems(item) {
   return `<div class="item" id="${item.id}">
@@ -17,7 +17,7 @@ function addItems(item) {
             <p class="rating-number">${item.rating.count}</p>
           </div>
           <div class="price-container">
-              <p class="price">$${(item.priceCents / 100).toFixed(2)}</p>
+              <p class="price">$${normalisePrice(item.priceCents)}</p>
           </div>
           <div class="item-selection-container">
               <select name="item-no" class="item-no item-no-${item.id}" id="${item.id}-selector">

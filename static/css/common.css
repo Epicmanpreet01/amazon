@@ -135,8 +135,8 @@ header{
 .cart-item-no{
     font-weight: bold;
     position: absolute;
-    top: -17px;
-    left: 25%;
+    top: -20px;
+    left: 30px;
     font-size: 17px;
     color: rgb(255, 167, 53);
 }
