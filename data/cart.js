@@ -50,3 +50,21 @@ export function removeCartItem(id) {
   cart = newCart;
   saveCart();
 }
+
+
+export function updateItemQuantity(id, newQuantity) {
+  newQuantity = parseInt(newQuantity);
+  if(newQuantity === 0) {
+    removeCartItem(id);
+  } else if(newQuantity >0){
+    cart.forEach(item => {
+      if(item.productId === id){
+        item.quantity = newQuantity;
+        return;
+      }
+    })
+    saveCart();
+  } else{
+    alert("Error: Invalid input");
+  }
+} 

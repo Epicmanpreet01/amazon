@@ -1,4 +1,4 @@
-import { cart, removeCartItem, getCartQuantity } from '../data/cart.js';
+import { cart, removeCartItem, getCartQuantity, updateItemQuantity } from '../data/cart.js';
 import { itemList } from '../data/products.js';
 import { normalisePrice } from './utils.js';
 
@@ -18,8 +18,10 @@ function addCart(product, quantity) {
 
                             <p class="item-price">$${normalisePrice(product.priceCents)}</p>
 
-                            <div class="item-quantity-container">
+                            <div class="item-quantity-container item-quantity-container-${product.id}">
                                 <p class="item-quantity item-quantity-${product.id}">Quantity: ${quantity}</p>
+                                <input type="number" class="input-quantity input-quantity-${product.id}" data-product-id ="${product.id}"></input>
+                                <p class="item-quantity-save" data-product-id="${product.id}">Save</p>
                                 <p class="item-quantity-update" data-product-id="${product.id}">Update</p>
                                 <p class="item-quantity-delete" data-product-id="${product.id}">Delete</p>
                             </div>
@@ -73,8 +75,10 @@ function addCart(product, quantity) {
 
                             <p class="item-price">$7.99</p>
 
-                            <div class="item-quantity-container">
+                            <div class="item-quantity-container item-quantity-container-${product.id}">
                                 <p class="item-quantity item-quantity-${product.id}">Quantity: ${quantity}</p>
+                                <input type="number" class="input-quantity input-quantity-${product.id}" data-product-id ="${product.id}"></input>
+                                <p class="item-quantity-save" data-product-id="${product.id}">Save</p>
                                 <p class="item-quantity-update" data-product-id="${product.id}">Update</p>
                                 <p class="item-quantity-delete" data-product-id="${product.id}">Delete</p>
                             </div>
@@ -175,6 +179,8 @@ checkOutLoader();
 
 
 
+
+
 document.querySelectorAll('.item-quantity-delete').forEach(element => {
     element.addEventListener('click', function() {
         const id = element.dataset.productId;
@@ -184,3 +190,42 @@ document.querySelectorAll('.item-quantity-delete').forEach(element => {
     })
 })
 
+
+
+document.querySelectorAll('.item-quantity-update').forEach(element => {
+    element.addEventListener('click', function() {
+        const id = element.dataset.productId;
+        document.querySelector('.item-quantity-container-'+id).classList.add('is-updating');
+        document.querySelector('.item-quantity-'+id).innerText = "Quantity: "
+
+        const value = document.querySelector('.input-quantity-'+id).value;
+    })
+})
+
+document.querySelectorAll('.input-quantity').forEach(item => {
+
+    item.addEventListener('keydown', function(event){
+        
+        if(event.key === 'Enter'){
+            const id = item.dataset.productId;
+            updateItemQuantity(id,item.value);
+            loadHeader();
+            loadOrderSummary();
+            document.querySelector('.item-quantity-'+id).innerText = `Quantity: ${item.value}`;
+        }
+
+    })
+})
+
+
+document.querySelectorAll('.item-quantity-save').forEach(element => {
+    element.addEventListener('click', function() {
+        const id = element.dataset.productId;
+        const value = document.querySelector('.input-quantity-'+id).value;
+        updateItemQuantity(id,value);
+        loadHeader();
+        loadOrderSummary();
+        document.querySelector('.item-quantity-'+id).innerText = `Quantity: ${value}`;
+        document.querySelector(`.item-quantity-container-${id}`).classList.remove('is-updating');
+    })
+})

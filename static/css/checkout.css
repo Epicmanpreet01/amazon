@@ -173,19 +173,45 @@ main {
 
 .item-quantity-container{
     display: flex;
+    align-items: center;
+    
     column-gap: 8px;
+    max-width: 200px;
     font-size: 15px;
 }
 
-.item-quantity-update, .item-quantity-delete{
+.input-quantity, .item-quantity-save{
+    display: none;
+}
+
+.is-updating .input-quantity,.is-updating .item-quantity-save{
+    display: inline;
+}
+
+.is-updating .item-quantity-update{
+    display: none;
+}
+
+.item-quantity-update, .item-quantity-delete, .item-quantity-save{
     cursor: pointer;
     color: #017cb6;
 }
 
-.item-quantity-delete:hover, .item-quantity-update:hover{
+.item-quantity-delete:hover, .item-quantity-update:hover, .item-quantity-save:hover{
     color: rgb(209, 112, 39);
 }
 
+.input-quantity{
+    max-width: 40px;
+    padding-top: 3px;
+    padding-left: 3px;
+    padding-bottom: 3px;
+}
+
+.input-quantity:focus{
+    border: 2px solid orange;
+    outline: none;
+}
 
 .item-delivery-options{
     display: flex;
@@ -450,3 +476,4 @@ main {
         max-width: 200px;
     }
 }
+
