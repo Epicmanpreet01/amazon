@@ -1,4 +1,4 @@
-import {cart, addCart} from '../data/cart.js'
+import {cart, addCart, getCartQuantity} from '../data/cart.js'
 import {itemList} from '../data/products.js'
 import {normalisePrice} from './utils.js'
 
@@ -72,12 +72,15 @@ function fadeAddMessage(id){
 }
 
 const updateCartQuantity = () =>{
-  let cartQuantity = 0;
-  cart.forEach((item) => {
-    cartQuantity +=item.quantity;
-  })
+  let cartQuantity = getCartQuantity();
+  const cartItemNo = document.querySelector('.cart-item-no')
+  if(!cartQuantity){
+    cartItemNo.style.display = 'none';
+    return;
+  }
 
-  document.querySelector('.cart-item-no').innerText = cartQuantity;
+  cartItemNo.style.display = 'inline-block';
+  cartItemNo.innerText = cartQuantity;
 } 
 
 document.addEventListener("DOMContentLoaded", updateCartQuantity);
