@@ -19,7 +19,8 @@ export function addCart(id,quantity){
     if(!inCart) {
       cart.push({
         productId: id,
-        quantity: quantity
+        quantity: quantity,
+        deliveryId: '1'
       })
     }
   
@@ -68,3 +69,12 @@ export function updateItemQuantity(id, newQuantity) {
     alert("Error: Invalid input");
   }
 } 
+
+export function updateDeliveryId(productId, deliveryId) {
+  cart.forEach(item => {
+    if (item.productId === productId) {
+        item.deliveryId = deliveryId;
+    }
+  });
+  saveCart();
+}
