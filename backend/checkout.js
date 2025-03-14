@@ -197,14 +197,12 @@ const checkOutLoader = function () {
 
 checkOutLoader();
 
-getShippingPrice();
-
 document.querySelectorAll('.item-quantity-delete').forEach(element => {
     element.addEventListener('click', function() {
         const id = element.dataset.productId;
         removeCartItem(id);
         loadHeader();
-        loadOrderSummary()
+        loadOrderSummary();
     })
 })
 
