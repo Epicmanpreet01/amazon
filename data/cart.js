@@ -37,8 +37,6 @@ export function getCartQuantity() {
 }
 
 export function removeCartItem(id) {
-
-  document.querySelector('.cart-item-'+id).remove();
   
   const newCart = [];
 
