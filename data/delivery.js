@@ -16,9 +16,10 @@ export const delivery = [
 
 export function getDelivery(mode) {
   const today = dayjs();
-
-  const delivery =  today.add(mode, 'days');
-
+  let delivery =  today.add(mode, 'days');
+  while(['Sunday','Saturday'].includes(delivery.format('dddd'))){
+    delivery = delivery.add(1,'days');
+  }
   return delivery.format('dddd,'+' MMMM D');
 }
 
