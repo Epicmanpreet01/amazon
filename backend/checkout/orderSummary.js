@@ -31,7 +31,7 @@ export default function loadOrderSummary(quantity=getCartQuantity()) {
 
     document.querySelector('.tax-price').innerHTML = normalisePrice(estimatedTax);
 
-    document.querySelector('.total-price').innerHTML = normalisePrice(Math.round(orderTotal));
+    document.querySelector('.total-price').innerHTML = normalisePrice(orderTotal);
 
     function getShippingPrice() {
       let shippingPrice = 0;
