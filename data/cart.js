@@ -1,9 +1,15 @@
-export let cart = JSON.parse(localStorage.getItem('cart')) || [];
+export let cart;
+
+loadFromCart();
 
 export const priceList = JSON.parse(localStorage.getItem('price')) || [];
 
 function saveCart() {
   localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function loadFromCart() {
+  cart = JSON.parse(localStorage.getItem('cart')) || [];
 }
 
 export function addCart(id,quantity){
