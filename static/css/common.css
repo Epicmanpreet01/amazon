@@ -21,23 +21,30 @@ header{
     right: 0;
 }
 
-.logo{
-    margin-left: 15px;
-    padding-top: 10px;
-    padding-left: 5px;
-    padding-right: 10px;
-    margin-right: 70px;
-    border: 1px solid rgb(19, 25, 33);
-}
-
-.logo:hover{
-    border: 1px solid white;
-}
 
 .logo-img{
     width: 100px
 }
+.left-section{    
+    border: 1px solid rgb(19, 25, 33);
+    margin-top: 6px;
+    margin-right: 10px;
+    padding: 2px;
+    margin-left: 10px;
+}
 
+.logo-pc-img{
+    padding-top: 5px;
+}
+
+.logo-mobile-img{
+    display: none;
+    width: 40px;
+}
+
+.left-section:hover{
+    border: 1px solid white;
+}
 
 .search{
     flex: 1;
@@ -146,4 +153,14 @@ header{
     display: inline;
     font-size: 17px;
     color: white;
+}
+
+@media (max-width: 572px) {
+    .logo-mobile-img{
+        display: inline;
+    }
+
+    .logo-pc-img{
+        display: none;
+    }
 }
