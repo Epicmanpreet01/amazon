@@ -1,7 +1,5 @@
 import loadCart from "../../backend/checkout/cartSummary.js";
-import { loadFromCart } from "../../data/cart.js";
-
-
+import { loadFromCart,cart } from "../../data/cart.js";
 
 describe('Integrated test for rendering cart summary', () =>{
   beforeEach(() => {
@@ -17,11 +15,107 @@ describe('Integrated test for rendering cart summary', () =>{
       }]);
     })
     loadFromCart();
-    spyOn(localStorage, 'setItem');  
+    spyOn(localStorage, 'setItem');
+    spyOn(localStorage, 'clear');
+    document.querySelector('.js-test-container').innerHTML = `
+    <div class="cart-items"></div>
+    <div class="empty-cart"></div>
+    <div class="item-no"></div>
+    <div class="order-summary"></div>
+    `
+    loadCart();
+  })
+
+  afterEach(() => {
+    document.querySelector('.js-test-container').innerHTML = '';
   })
 
   it('cart items load properly when not empty', () =>{
-    loadCart();
+    const product1 = cart[0].productId;
+    const product2 = cart[1].productId;
+    loadCart();  
+    expect(
+      document.querySelectorAll('.cart-item').length
+    ).toBe(4);
+    /*correct quantity displayed*/
+    expect(
+      document.querySelector(`.item-quantity-${product1}`).innerText
+    ).toContain(1);
+    expect(
+      document.querySelector(`.item-quantity-${product2}`).innerText
+    ).toContain(2);
+    /*correct price displayed*/
+    expect(
+      document.querySelector(`.item-price-${product1}`).innerText
+    ).toContain(10.90);
+    expect(
+      document.querySelector(`.item-price-${product2}`).innerText
+    ).toContain(20.95);
+    /*Correct delivery option checked at launch*/
+    expect(
+      document.getElementById(`big-delivery-1-${product1}`).checked
+    ).toBe(true);
+    expect(
+      document.getElementById(`big-delivery-1-${product2}`).checked
+    ).toBe(true);
+  })
+
+  it('default UI for when cart is empty loads', () => {
+    document.querySelectorAll('.item-quantity-delete').forEach(element => {
+      element.click();
+    })
+
+    expect(
+      document.querySelectorAll('cart-item').length
+    ).toBe(0);
+    expect(
+      document.querySelector('.cart-items').innerHTML
+    ).toEqual('');
+    expect(
+      document.querySelector('.cart-items').style.display
+    ).toEqual('none');
+    expect(
+      document.querySelector('.empty-cart').style.display
+    ).not.toEqual('none');
+  })
+
+  it('delete button deletes item from cart', () => {
+    const product1 = cart[0].productId;
+    const product2 = cart[1].productId;
+    document.querySelector(`.item-quantity-delete-${product1}`).click();
+    
+    expect(
+      document.querySelectorAll('.cart-item').length
+    ).toBe(2);
+    expect(
+      document.querySelector(`cart-item-${product1}`)
+    ).toBe(null);
+    
+    document.querySelector(`.item-quantity-delete-${product2}`).click();
+
+    expect(
+      document.querySelectorAll(`.cart-item`).length
+    ).toBe(0);
+
+    expect(
+      document.querySelector(`.cart-item-${product2}`)
+    ).toBe(null);
+  })
+
+  it('user interaction for update button works correctly', () => {
+    const product1 = cart[0].productId;
+    const product2 = cart[1].productId;
+    document.querySelector(`.item-quantity-update-${product1}`).click();
+
+    expect(
+      document.querySelector(`.item-quantity-container-${product1}`).classList.contains('is-updating')
+    ).toEqual(true);
+
+    document.querySelector(`.item-quantity-update-${product2}`).click();
+
+    expect(
+      document.querySelector(`.item-quantity-container-${product2}`).classList.contains('is-updating')
+    ).toEqual(true);
   })
 
 })

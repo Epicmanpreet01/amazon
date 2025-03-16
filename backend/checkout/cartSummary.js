@@ -48,14 +48,14 @@ export default function loadCart() {
                             <div class="item-info">
                                 <p class="item-name">${product.name}</p>
     
-                                <p class="item-price">$${normalisePrice(product.priceCents)}</p>
+                                <p class="item-price item-price-${product.id}">$${normalisePrice(product.priceCents)}</p>
     
                                 <div class="item-quantity-container item-quantity-container-${product.id}">
                                     <p class="item-quantity item-quantity-${product.id}">Quantity: ${quantity}</p>
                                     <input type="number" class="input-quantity input-quantity-${product.id}" data-product-id ="${product.id}"></input>
                                     <p class="item-quantity-save" data-product-id="${product.id}">Save</p>
-                                    <p class="item-quantity-update" data-product-id="${product.id}">Update</p>
-                                    <p class="item-quantity-delete" data-product-id="${product.id}">Delete</p>
+                                    <p class="item-quantity-update item-quantity-update-${product.id}" data-product-id="${product.id}">Update</p>
+                                    <p class="item-quantity-delete item-quantity-delete-${product.id}" data-product-id="${product.id}">Delete</p>
                                 </div>
                             </div>
     
@@ -76,14 +76,14 @@ export default function loadCart() {
                             <div class="item-info">
                                 <p class="item-name">${product.name}</p>
     
-                                <p class="item-price">$7.99</p>
+                                <p class="item-price item-price-${product.id}">$${normalisePrice(product.priceCents)}</p>
     
                                 <div class="item-quantity-container item-quantity-container-${product.id}">
                                     <p class="item-quantity item-quantity-${product.id}">Quantity: ${quantity}</p>
                                     <input type="number" class="input-quantity input-quantity-${product.id}" data-product-id ="${product.id}"></input>
                                     <p class="item-quantity-save" data-product-id="${product.id}">Save</p>
-                                    <p class="item-quantity-update" data-product-id="${product.id}">Update</p>
-                                    <p class="item-quantity-delete" data-product-id="${product.id}">Delete</p>
+                                    <p class="item-quantity-update item-quantity-update-${product.id}" data-product-id="${product.id}">Update</p>
+                                    <p class="item-quantity-delete item-quantity-delete-${product.id}" data-product-id="${product.id}">Delete</p>
                                 </div>
                             </div>
     
