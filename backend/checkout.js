@@ -6,8 +6,6 @@ export default function checkOutLoader() {
     loadCart();
     loadHeader();
     loadOrderSummary();
-
-
 }
 
 checkOutLoader();

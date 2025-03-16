@@ -20,18 +20,54 @@ export default function loadOrderSummary(quantity=getCartQuantity()) {
     const estimatedTax = totalBeforeTax * 0.1;
     const orderTotal = totalBeforeTax + estimatedTax;
 
+    const orderSummaryHTML = `<div class="order-summary-header">
+                    <p>Order Summary</p>
+                </div>
 
-    document.querySelector('.total-item-no').innerHTML = quantity;
+                <div class="order-field">
+                    <p class="category">Item (<span class="total-item-no">${quantity}</span>):</p>
+                    <p class="price">$<span class="total-item-price">${normalisePrice(totalItemPrice)}</span></p>
+                </div>
 
-    document.querySelector('.total-item-price').innerHTML = normalisePrice(totalItemPrice);
+                <div class="order-field">
+                    <p class="category">Shipping & handling:</p>
+                    <p class="price">$<span class="shipping-price">${normalisePrice(shippingPrice)}</span></p>
+                </div>
 
-    document.querySelector('.shipping-price').innerHTML = normalisePrice(shippingPrice);
+                <div class="order-field">
+                    <p class="category">Total before tax:</p>
+                    <p class="price" id="total-before-tax">$<span class="total-before-tax-price">${normalisePrice(totalBeforeTax)}</span></p>
+                </div>
 
-    document.querySelector('.total-before-tax-price').innerHTML = normalisePrice(totalBeforeTax);
+                <div class="order-field">
+                    <p class="category">Estimated tax (10%):</p>
+                    <p class="price">$<span class="tax-price">${normalisePrice(estimatedTax)}</span></p>
+                </div>
 
-    document.querySelector('.tax-price').innerHTML = normalisePrice(estimatedTax);
+                <div class="horizontal-rule">
+                </div>
+                <div class="order-total">
+                    <p class="total-lbl">Order total:</p>
+                    <p class="total">$<span class="total-price">${normalisePrice(orderTotal)}</span></p>
+                </div>
 
-    document.querySelector('.total-price').innerHTML = normalisePrice(orderTotal);
+                <a href="order.html">
+                    <button class="place-order-btn" ${checkEmpty()}>Place your order</button>
+                </a>`
+
+    document.querySelector('.order-summary').innerHTML = orderSummaryHTML;
+
+    if(document.querySelector('.cart-items').style.display === 'none') {
+        document.querySelector('.place-order-btn').style.disabled = true;
+        document.querySelector('.place-order-btn').classList.add('is-disabled');
+    } else{
+        document.querySelector('.place-order-btn').style.disabled = false;
+        document.querySelector('.place-order-btn').classList.remove('is-disabled');
+    }
+
+    function checkEmpty() {
+        return (document.querySelector('.cart-items').style.display === 'none')? 'disabled' : '';
+    }
 
     function getShippingPrice() {
       let shippingPrice = 0;

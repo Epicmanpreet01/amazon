@@ -4,40 +4,33 @@ import { getDelivery, delivery } from '../../data/delivery.js';
 import {normalisePrice} from '../utils.js';
 import checkOutLoader from '../checkout.js';
 
-let cartEmptyFlag = false;
 export default function loadCart() {
-    if(cart.length){
-        if(cartEmptyFlag){
-            document.querySelector('.empty-cart').classList.remove('is-empty');
-            document.querySelector('.cart-items').classList.remove('empty-cart');
-            document.querySelector('.place-order-btn').setAttribute('disabled',false);
-            document.querySelector('.place-order-btn').classList.remove('is-disabled');
-            cartEmptyFlag = false;
-        }
-        const cartItems = document.querySelector('.cart-items');
-        cartItems.innerHTML = '';
-        cart.forEach(function (cartItem) {
-            const productId = cartItem.productId;
-    
-            let product = {};
-            
-            itemList.forEach(function (item) {
-                if (productId === item.id) {
-                    product = item;
-                    return;
-                }
-            })
-            cartItems.insertAdjacentHTML('beforeend', addCart(product, cartItem.quantity));
-            document.getElementById(`big-delivery-${cartItem.deliveryId}-${productId}`).checked = true;
-            document.getElementById(`small-delivery-${cartItem.deliveryId}-${productId}`).checked = true;
-            setDelivery(productId, cartItem.deliveryId);
+
+    const cartItems = document.querySelector('.cart-items');
+    cartItems.innerHTML = '';
+    cart.forEach(function (cartItem) {
+        const productId = cartItem.productId;
+
+        let product = {};
+        
+        itemList.forEach(function (item) {
+            if (productId === item.id) {
+                product = item;
+                return;
+            }
         })
-    } else{
-        cartEmptyFlag = true;
+        cartItems.insertAdjacentHTML('beforeend', addCart(product, cartItem.quantity));
+        document.getElementById(`big-delivery-${cartItem.deliveryId}-${productId}`).checked = true;
+        document.getElementById(`small-delivery-${cartItem.deliveryId}-${productId}`).checked = true;
+        setDelivery(productId, cartItem.deliveryId);
+    })
+
+    if(!cartItems.innerHTML) {
+        document.querySelector('.cart-items').style.display = 'none';
         document.querySelector('.empty-cart').classList.add('is-empty');
-        document.querySelector('.cart-items').classList.add('empty-cart');
-        document.querySelector('.place-order-btn').setAttribute('disabled',true);
-        document.querySelector('.place-order-btn').classList.add('is-disabled');
+    } else{
+        document.querySelector('.cart-items').style.display = 'flex';
+        document.querySelector('.empty-cart').classList.remove('is-empty');
     }
 
 
