@@ -1,5 +1,6 @@
 import loadCart from "../../backend/checkout/cartSummary.js";
 import { loadFromCart,cart } from "../../data/cart.js";
+import { getDelivery } from "../../data/delivery.js";
 
 describe('Integrated test for rendering cart summary', () =>{
   beforeEach(() => {
@@ -30,7 +31,7 @@ describe('Integrated test for rendering cart summary', () =>{
     document.querySelector('.js-test-container').innerHTML = '';
   })
 
-  it('cart items load properly when not empty', () =>{
+  it('cart loads when not empty', () =>{
     const product1 = cart[0].productId;
     const product2 = cart[1].productId;
     loadCart();  
@@ -60,7 +61,7 @@ describe('Integrated test for rendering cart summary', () =>{
     ).toBe(true);
   })
 
-  it('default UI for when cart is empty loads', () => {
+  it('default UI when cart empty loads', () => {
     document.querySelectorAll('.item-quantity-delete').forEach(element => {
       element.click();
     })
@@ -79,7 +80,7 @@ describe('Integrated test for rendering cart summary', () =>{
     ).not.toEqual('none');
   })
 
-  it('delete button deletes item from cart', () => {
+  it('delete button works correctly', () => {
     const product1 = cart[0].productId;
     const product2 = cart[1].productId;
     document.querySelector(`.item-quantity-delete-${product1}`).click();
@@ -102,7 +103,7 @@ describe('Integrated test for rendering cart summary', () =>{
     ).toBe(null);
   })
 
-  it('user interaction for update button works correctly', () => {
+  it('update button works correctly', () => {
     const product1 = cart[0].productId;
     const product2 = cart[1].productId;
     document.querySelector(`.item-quantity-update-${product1}`).click();
@@ -118,4 +119,29 @@ describe('Integrated test for rendering cart summary', () =>{
     ).toEqual(true);
   })
 
+  it('Delivery interaction works', ()=>{
+    const product1 = cart[0].productId;
+    const product2 = cart[1].productId;
+    
+    const today = dayjs();
+    let deliverydate = getDelivery(7);
+
+    expect(
+      document.querySelector(`.delivery-date-${product1}`).innerText
+    ).toContain(deliverydate);
+    expect(
+      document.querySelector(`.delivery-date-${product2}`).innerText
+    ).toContain(deliverydate);
+
+    deliverydate = getDelivery(5);
+
+    document.querySelector(`#big-delivery-2-${product1}`).click();
+    document.querySelector(`#big-delivery-2-${product2}`).click();
+    expect(
+      document.querySelector(`.delivery-date-${product1}`).innerText
+    ).toContain(deliverydate);
+    expect(
+      document.querySelector(`.delivery-date-${product2}`).innerText
+    ).toContain(deliverydate);
+  })
 })
