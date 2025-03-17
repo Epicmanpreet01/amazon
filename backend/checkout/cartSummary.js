@@ -46,7 +46,7 @@ export default function loadCart() {
                             </div>
     
                             <div class="item-info">
-                                <p class="item-name">${product.name}</p>
+                                <p class="item-name item-name-${product.id}">${product.name}</p>
     
                                 <p class="item-price item-price-${product.id}">$${normalisePrice(product.priceCents)}</p>
     
@@ -74,7 +74,7 @@ export default function loadCart() {
                             </div>
     
                             <div class="item-info">
-                                <p class="item-name">${product.name}</p>
+                                <p class="item-name item-name-${product.id}">${product.name}</p>
     
                                 <p class="item-price item-price-${product.id}">$${normalisePrice(product.priceCents)}</p>
     

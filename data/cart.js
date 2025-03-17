@@ -75,10 +75,20 @@ export function updateItemQuantity(id, newQuantity) {
 } 
 
 export function updateDeliveryId(productId, deliveryId) {
+
+  if(!['1','2','3'].includes(deliveryId)){
+    return;
+  }
+
+  let flag = false;
   cart.forEach(item => {
     if (item.productId === productId) {
+        flag = true;
         item.deliveryId = deliveryId;
     }
   });
-  saveCart();
+
+  if(flag){
+    saveCart();
+  }
 }

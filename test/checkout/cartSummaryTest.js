@@ -1,6 +1,7 @@
 import loadCart from "../../backend/checkout/cartSummary.js";
 import { loadFromCart,cart } from "../../data/cart.js";
 import { getDelivery } from "../../data/delivery.js";
+import { itemList } from "../../data/products.js";
 
 describe('Integrated test for rendering cart summary', () =>{
   beforeEach(() => {
@@ -48,10 +49,10 @@ describe('Integrated test for rendering cart summary', () =>{
     /*correct price displayed*/
     expect(
       document.querySelector(`.item-price-${product1}`).innerText
-    ).toContain(10.90);
+    ).toContain(`$10.90`);
     expect(
       document.querySelector(`.item-price-${product2}`).innerText
-    ).toContain(20.95);
+    ).toContain('$20.95');
     /*Correct delivery option checked at launch*/
     expect(
       document.getElementById(`big-delivery-1-${product1}`).checked
@@ -59,6 +60,23 @@ describe('Integrated test for rendering cart summary', () =>{
     expect(
       document.getElementById(`big-delivery-1-${product2}`).checked
     ).toBe(true);
+
+    let name1;
+    let name2;
+    itemList.forEach(element => {
+      if(element.id === product1) {
+        name1 = element.name;
+      } else if(element.id === product2) {
+        name2 = element.name;
+      }
+    })
+
+    expect(
+      document.querySelector(`.item-name-${product1}`).innerText
+    ).toContain(name1);
+    expect(
+      document.querySelector(`.item-name-${product2}`).innerText
+    ).toContain(name2);
   })
 
   it('default UI when cart empty loads', () => {
@@ -136,7 +154,13 @@ describe('Integrated test for rendering cart summary', () =>{
     deliverydate = getDelivery(5);
 
     document.querySelector(`#big-delivery-2-${product1}`).click();
+    expect(
+      document.querySelector(`#big-delivery-2-${product1}`).checked
+    ).toBe(true);
     document.querySelector(`#big-delivery-2-${product2}`).click();
+    expect(
+      document.querySelector(`#big-delivery-2-${product2}`).checked
+    ).toBe(true);
     expect(
       document.querySelector(`.delivery-date-${product1}`).innerText
     ).toContain(deliverydate);
