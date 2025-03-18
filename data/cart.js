@@ -1,3 +1,6 @@
+import { getItemShippingPrice } from "./delivery.js";
+import { itemList } from "./products.js";
+
 export let cart;
 
 loadFromCart();
@@ -91,4 +94,26 @@ export function updateDeliveryId(productId, deliveryId) {
   if(flag){
     saveCart();
   }
+}
+export function getShippingPrice() {
+  let shippingPrice = 0;
+  cart.forEach(element => {
+      shippingPrice += getItemShippingPrice(element.deliveryId);
+  })
+  return shippingPrice;
+}
+
+export function getTotalPrice() {
+    let totalItemPrice = 0;
+
+    cart.forEach(cartItem => {
+        itemList.forEach(product => {
+            if(product.id === cartItem.productId) {
+                totalItemPrice += product.priceCents * cartItem.quantity;
+                return;
+            }
+        })
+    })
+
+    return totalItemPrice;
 }

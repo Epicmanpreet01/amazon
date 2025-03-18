@@ -1,20 +1,10 @@
-import { cart, getCartQuantity } from '../../data/cart.js';
-import { itemList } from '../../data/products.js';
-import { getItemShippingPrice } from '../../data/delivery.js';
+import { getCartQuantity } from '../../data/cart.js';
+import { getShippingPrice, getTotalPrice } from '../../data/cart.js';
 import {normalisePrice} from '../utils.js';
 
 
 export default function loadOrderSummary(quantity=getCartQuantity()) {
-    let totalItemPrice = 0;
-
-    cart.forEach(cartItem => {
-        itemList.forEach(product => {
-            if(product.id === cartItem.productId) {
-                totalItemPrice += product.priceCents * cartItem.quantity;
-                return;
-            }
-        })
-    })
+    const totalItemPrice = getTotalPrice();
     const shippingPrice = getShippingPrice();
     const totalBeforeTax = totalItemPrice + shippingPrice;
     const estimatedTax = totalBeforeTax * 0.1;
@@ -69,11 +59,4 @@ export default function loadOrderSummary(quantity=getCartQuantity()) {
         return (document.querySelector('.cart-items').style.display === 'none')? 'disabled' : '';
     }
 
-    function getShippingPrice() {
-      let shippingPrice = 0;
-      cart.forEach(element => {
-          shippingPrice += getItemShippingPrice(element.deliveryId);
-      })
-      return shippingPrice;
-  }
 }
