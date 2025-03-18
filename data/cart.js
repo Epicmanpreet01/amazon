@@ -98,7 +98,12 @@ export function updateDeliveryId(productId, deliveryId) {
 export function getShippingPrice() {
   let shippingPrice = 0;
   cart.forEach(element => {
-      shippingPrice += getItemShippingPrice(element.deliveryId);
+      if(['1','2','3'].includes(element.deliveryId)){
+        shippingPrice += getItemShippingPrice(element.deliveryId);
+      } else{
+        element.deliveryId = '1';
+      }
+      
   })
   return shippingPrice;
 }

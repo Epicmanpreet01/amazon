@@ -1,4 +1,4 @@
-import {cart, addCart, loadFromCart, updateItemQuantity, removeCartItem, updateDeliveryId} from '../../data/cart.js';
+import {cart, addCart, loadFromCart, updateItemQuantity, removeCartItem, updateDeliveryId, getShippingPrice, getTotalPrice} from '../../data/cart.js';
 
 describe('Test suites: cart.js', () => {
   describe('Test suite: addCart', () => {
@@ -159,5 +159,65 @@ describe('Test suites: cart.js', () => {
       updateDeliveryId('e43638ce-6aa0-4b85-b27f-e1d07eb678c6', '4');
       expect(localStorage.setItem).toHaveBeenCalledTimes(0);
     })
+  })
+
+  describe('test suite: getShippingPrice', ()=> {
+    beforeEach(() =>{
+      spyOn(localStorage, 'getItem').and.callFake(() => {
+        return JSON.stringify([{
+          productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+          quantity: 1,
+          deliveryId: '1'
+        }, {
+          productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
+          quantity: 2,
+          deliveryId: '2'
+        }]);
+      })
+      loadFromCart();
+      spyOn(localStorage, 'setItem');
+    })
+
+    afterEach(() => {
+      localStorage.clear();
+    })
+
+    it('correct when valid delivery id', ()=> {
+      const shippingPrice = getShippingPrice();
+
+      expect(shippingPrice).toBe(499);
+    })
+
+    it('set default when invalid delivery id', ()=> {
+      cart[1].deliveryId = '4';
+      const shippingPrice = getShippingPrice();
+
+      expect(cart[1].deliveryId).toBe('1');
+      expect(shippingPrice).toBe(0);
+    })
+  })
+
+  describe('test suite: getTotalPrice', () =>{
+    beforeEach(() =>{
+      spyOn(localStorage, 'getItem').and.callFake(() => {
+        return JSON.stringify([{
+          productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+          quantity: 1,
+          deliveryId: '1'
+        }, {
+          productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
+          quantity: 2,
+          deliveryId: '2'
+        }]);
+      })
+      loadFromCart();
+      spyOn(localStorage, 'setItem');
+    })
+
+    it('correct price', () => {
+      const totalPrice = getTotalPrice();
+      expect(totalPrice).toBe(1090+(2*2095));
+    })
+    
   })
 })
