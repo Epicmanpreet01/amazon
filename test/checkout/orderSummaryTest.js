@@ -1,9 +1,8 @@
 import loadOrderSummary from "../../backend/checkout/orderSummary.js";
-import { getCartQuantity, loadFromCart, getShippingPrice, getTotalPrice, removeCartItem, cart } from "../../data/cart.js";
-import loadCart from '../../backend/checkout/cartSummary.js';
+import { getCartQuantity, loadFromCart, getShippingPrice, getTotalPrice } from "../../data/cart.js";
 import { normalisePrice } from "../../backend/utils.js";
 
-describe('testing orderSummary render', () => {
+describe('integration testing orderSummary render', () => {
 
   beforeEach(()=>{
       spyOn(localStorage, 'getItem').and.callFake(()=> {
