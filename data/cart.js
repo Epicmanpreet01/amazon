@@ -5,8 +5,6 @@ export let cart;
 
 loadFromCart();
 
-export const priceList = JSON.parse(localStorage.getItem('price')) || [];
-
 function saveCart() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
@@ -16,25 +14,25 @@ export function loadFromCart() {
 }
 
 export function addCart(id,quantity){
-    let inCart = false
+  let inCart = false
   
-    cart.forEach((item) => {
-      if(item.productId === id) {
-        item.quantity +=quantity;
-        inCart = true;
-      }
-    })
-  
-    if(!inCart) {
-      cart.push({
-        productId: id,
-        quantity: quantity,
-        deliveryId: '1'
-      })
+  cart.forEach((item) => {
+    if(item.productId === id) {
+      item.quantity +=quantity;
+      inCart = true;
     }
+  })
   
-    saveCart();
+  if(!inCart) {
+    cart.push({
+      productId: id,
+      quantity: quantity,
+      deliveryId: '1'
+    })
   }
+  
+  saveCart();
+}
 
 export function getCartQuantity() {
   let cartQuantity = 0;
