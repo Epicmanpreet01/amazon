@@ -1,3 +1,5 @@
+import { normalisePrice } from "../backend/utils.js";
+
 class Product{
   id;
   image;
@@ -12,8 +14,19 @@ class Product{
     this.rating = product.rating;
     this.priceCents = product.priceCents;
   }
-}
 
+  getRatingUrl() {
+    return `assets/img/ratings/rating-${this.rating.stars * 10}.png`; 
+  }
+
+  getRatingCount() {
+    return this.rating.count;
+  }
+
+  getPrice() {
+    return normalisePrice(this.priceCents);
+  }
+}
 
 
 export const itemList = JSON.parse(localStorage.getItem('items')) || [
@@ -678,5 +691,3 @@ export const itemList = JSON.parse(localStorage.getItem('items')) || [
 ].map(item =>{
   return new Product(item);
 })
-
-console.log(itemList);

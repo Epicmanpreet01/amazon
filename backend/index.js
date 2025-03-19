@@ -1,6 +1,5 @@
 import {cart, addCart, getCartQuantity} from '../data/cart.js'
 import {itemList} from '../data/products.js'
-import {normalisePrice} from './utils.js'
 
 function addItems(item) {
   return `<div class="item" id="${item.id}">
@@ -12,12 +11,12 @@ function addItems(item) {
           </div>
           <div class="rating">
             <div class="rating-star-container">
-              <img src="assets/img/ratings/rating-${item.rating.stars * 10}.png" class="rating-star">
+              <img src=${item.getRatingUrl()} class="rating-star">
             </div>
-            <p class="rating-number">${item.rating.count}</p>
+            <p class="rating-number">${item.getRatingCount()}</p>
           </div>
           <div class="price-container">
-              <p class="price">$${normalisePrice(item.priceCents)}</p>
+              <p class="price">$${item.getPrice()}</p>
           </div>
           <div class="item-selection-container">
               <select name="item-no" class="item-no item-no-${item.id}" id="${item.id}-selector">

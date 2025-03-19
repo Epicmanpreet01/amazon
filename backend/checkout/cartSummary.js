@@ -1,7 +1,6 @@
 import { cart, removeCartItem, updateItemQuantity, updateDeliveryId } from '../../data/cart.js';
 import { itemList } from '../../data/products.js';
 import { getDelivery, delivery } from '../../data/delivery.js';
-import {normalisePrice} from '../utils.js';
 import checkOutLoader from '../checkout.js';
 
 export default function loadCart() {
@@ -48,7 +47,7 @@ export default function loadCart() {
                             <div class="item-info">
                                 <p class="item-name item-name-${product.id}">${product.name}</p>
     
-                                <p class="item-price item-price-${product.id}">$${normalisePrice(product.priceCents)}</p>
+                                <p class="item-price item-price-${product.id}">$${product.getPrice()}</p>
     
                                 <div class="item-quantity-container item-quantity-container-${product.id}">
                                     <p class="item-quantity item-quantity-${product.id}">Quantity: ${quantity}</p>
@@ -76,7 +75,7 @@ export default function loadCart() {
                             <div class="item-info">
                                 <p class="item-name item-name-${product.id}">${product.name}</p>
     
-                                <p class="item-price item-price-${product.id}">$${normalisePrice(product.priceCents)}</p>
+                                <p class="item-price item-price-${product.id}">$${product.getPrice()}</p>
     
                                 <div class="item-quantity-container item-quantity-container-${product.id}">
                                     <p class="item-quantity item-quantity-${product.id}">Quantity: ${quantity}</p>
