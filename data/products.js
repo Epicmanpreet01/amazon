@@ -1,3 +1,21 @@
+class Product{
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+
+  constructor(product) {
+    this.id = product.id;
+    this.image = product.image;
+    this.name = product.name;
+    this.rating = product.rating;
+    this.priceCents = product.priceCents;
+  }
+}
+
+
+
 export const itemList = JSON.parse(localStorage.getItem('items')) || [
     {
         id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -657,4 +675,8 @@ export const itemList = JSON.parse(localStorage.getItem('items')) || [
           "mens"
         ]
       }
-];
+].map(item =>{
+  return new Product(item);
+})
+
+console.log(itemList);
