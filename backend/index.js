@@ -1,4 +1,4 @@
-import {cart} from '../data/cart.js'
+import {cart, addCart, getCartQuantity} from '../data/cart.js'
 import {itemList} from '../data/products.js'
 
 function addItems(item) {
@@ -71,7 +71,7 @@ function fadeAddMessage(id){
 }
 
 const updateCartQuantity = () =>{
-  let cartQuantity = cart.getCartQuantity();
+  let cartQuantity = getCartQuantity();
   const cartItemNo = document.querySelector('.cart-item-no')
   if(!cartQuantity){
     cartItemNo.style.display = 'none';
@@ -93,7 +93,7 @@ document.querySelectorAll('.add-to-cart').forEach(function(element) {
     }, 2000);
     const quantity = parseInt(document.querySelector('.item-no-'+productId).value);
     document.getElementById(productId).value = '1';
-    cart.addCart(productId,quantity);
+    addCart(productId,quantity);
     updateCartQuantity();
   })
   clearTimeout(addMessageTimeOutId);

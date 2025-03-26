@@ -1,9 +1,9 @@
 import loadOrderSummary from "../../backend/checkout/orderSummary.js";
-import { Cart } from "../../data/cart.js";
+import { getCartQuantity, loadFromCart, getShippingPrice, getTotalPrice } from "../../data/cart.js";
 import { normalisePrice } from "../../backend/utils.js";
 
 describe('integration testing orderSummary render', () => {
-  let cart;
+
   beforeEach(()=>{
       spyOn(localStorage, 'getItem').and.callFake(()=> {
         return JSON.stringify([{
@@ -16,7 +16,7 @@ describe('integration testing orderSummary render', () => {
           deliveryId: '1'
         }]);
       })
-      cart = new Cart('test-cart');
+      loadFromCart();
       spyOn(localStorage, 'setItem');
       spyOn(localStorage, 'clear');
       document.querySelector('.js-test-container').innerHTML = `
@@ -24,7 +24,7 @@ describe('integration testing orderSummary render', () => {
         <div class="empty-cart"></div>
         <div class="item-no"></div>
         <div class="order-summary"></div>
-      `;
+      `
       loadOrderSummary();
   })
 
@@ -33,16 +33,19 @@ describe('integration testing orderSummary render', () => {
   })
 
   it('order summary UI loads when cart not empty', () => {
-    const cartQuantity = cart.getCartQuantity();
-    const totalPrice = cart.getTotalPrice();
-    const shippingPrice = cart.getShippingPrice();
-    loadOrderSummary();
+    loadOrderSummary()
+
+    const cartQuantity = getCartQuantity();
+    const totalPrice = getTotalPrice();
+    const shippingPrice = getShippingPrice();
     expect(
       document.querySelector('.total-item-no').innerText
     ).toBe(String(cartQuantity));
+    
     expect(
       document.querySelector('.total-item-price').innerText
     ).toContain(normalisePrice(totalPrice));
+
     expect(
       document.querySelector('.shipping-price').innerText
     ).toContain(normalisePrice(shippingPrice));
