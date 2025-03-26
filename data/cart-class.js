@@ -136,6 +136,5 @@ class Cart{
 }
 
 const cart = new Cart('cart');
-const businessCart = new Cart('businessCart');
 
-export  {cart, businessCart};
+export {cart};

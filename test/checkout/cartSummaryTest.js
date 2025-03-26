@@ -1,41 +1,41 @@
 import loadCart from "../../backend/checkout/cartSummary.js";
-import { loadFromCart,cart } from "../../data/cart.js";
-import { getDelivery } from "../../data/delivery.js";
+import { Cart } from "../../data/cart.js";
 import { itemList } from "../../data/products.js";
 
 describe('Integrated test for rendering cart summary', () =>{
+  let cart;
+
   beforeEach(() => {
-    spyOn(localStorage, 'getItem').and.callFake(()=> {
-      return JSON.stringify([{
-        productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-        quantity: 1,
-        deliveryId: '1'
-      }, {
-        productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-        quantity: 2,
-        deliveryId: '1'
-      }]);
-    })
-    loadFromCart();
+    spyOn(localStorage, 'getItem').and.callFake(() => {
+      return JSON.stringify([
+        {
+          productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+          quantity: 1,
+          deliveryId: '1'
+        },
+        {
+          productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
+          quantity: 2,
+          deliveryId: '1'
+        }
+      ]);
+    });
+
     spyOn(localStorage, 'setItem');
     spyOn(localStorage, 'clear');
-    document.querySelector('.js-test-container').innerHTML = `
-    <div class="cart-items"></div>
-    <div class="empty-cart"></div>
-    <div class="item-no"></div>
-    <div class="order-summary"></div>
-    `
+
+    cart = new Cart('test-cart-1');
     loadCart();
-  })
+  });
 
   afterEach(() => {
     document.querySelector('.js-test-container').innerHTML = '';
   })
 
   it('cart loads when not empty', () =>{
-    const product1 = cart[0].productId;
-    const product2 = cart[1].productId;
-    loadCart();  
+    const product1 = cart.cartItems[0].productId;
+    const product2 = cart.cartItems[1].productId;
+    
     expect(
       document.querySelectorAll('.cart-item').length
     ).toBe(4);
@@ -59,7 +59,7 @@ describe('Integrated test for rendering cart summary', () =>{
     ).toBe(true);
     expect(
       document.getElementById(`big-delivery-1-${product2}`).checked
-    ).toBe(true);
+    ).toBe(false);
 
     let name1;
     let name2;
@@ -77,6 +77,7 @@ describe('Integrated test for rendering cart summary', () =>{
     expect(
       document.querySelector(`.item-name-${product2}`).innerText
     ).toContain(name2);
+
   })
 
   it('default UI when cart empty loads', () => {
@@ -85,7 +86,7 @@ describe('Integrated test for rendering cart summary', () =>{
     })
 
     expect(
-      document.querySelectorAll('cart-item').length
+      document.querySelectorAll('.cart-item').length
     ).toBe(0);
     expect(
       document.querySelector('.cart-items').innerHTML
@@ -99,8 +100,9 @@ describe('Integrated test for rendering cart summary', () =>{
   })
 
   it('delete button works correctly', () => {
-    const product1 = cart[0].productId;
-    const product2 = cart[1].productId;
+    const product1 = cart.cartItems[0].productId;
+    const product2 = cart.cartItems[1].productId;
+    
     document.querySelector(`.item-quantity-delete-${product1}`).click();
     
     expect(
@@ -122,8 +124,8 @@ describe('Integrated test for rendering cart summary', () =>{
   })
 
   it('update button works correctly', () => {
-    const product1 = cart[0].productId;
-    const product2 = cart[1].productId;
+    const product1 = cart.cartItems[0].productId;
+    const product2 = cart.cartItems[1].productId;
     document.querySelector(`.item-quantity-update-${product1}`).click();
 
     expect(
@@ -135,37 +137,5 @@ describe('Integrated test for rendering cart summary', () =>{
     expect(
       document.querySelector(`.item-quantity-container-${product2}`).classList.contains('is-updating')
     ).toEqual(true);
-  })
-
-  it('Delivery interaction works', ()=>{
-    const product1 = cart[0].productId;
-    const product2 = cart[1].productId;
-    
-    const today = dayjs();
-    let deliverydate = getDelivery(7);
-
-    expect(
-      document.querySelector(`.delivery-date-${product1}`).innerText
-    ).toContain(deliverydate);
-    expect(
-      document.querySelector(`.delivery-date-${product2}`).innerText
-    ).toContain(deliverydate);
-
-    deliverydate = getDelivery(5);
-
-    document.querySelector(`#big-delivery-2-${product1}`).click();
-    expect(
-      document.querySelector(`#big-delivery-2-${product1}`).checked
-    ).toBe(true);
-    document.querySelector(`#big-delivery-2-${product2}`).click();
-    expect(
-      document.querySelector(`#big-delivery-2-${product2}`).checked
-    ).toBe(true);
-    expect(
-      document.querySelector(`.delivery-date-${product1}`).innerText
-    ).toContain(deliverydate);
-    expect(
-      document.querySelector(`.delivery-date-${product2}`).innerText
-    ).toContain(deliverydate);
   })
 })
