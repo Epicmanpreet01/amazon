@@ -23,6 +23,10 @@ function addItems(item) {
                   ${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}
               </select>
           </div>
+
+          
+          ${item.createSizeChartHTML()}
+
           <div class="add-message add-message-${item.id}">
             <img src="assets/img/product/checkmark.png">
             Added

@@ -26,6 +26,26 @@ class Product{
   getPrice() {
     return normalisePrice(this.priceCents);
   }
+
+  createSizeChartHTML() {
+    return `<a style='visibility: hidden; cursor: pointer;' class='size-chart' href="assets/img/product/${this.sizeChartLink}" target="_blank">Size Chart</a>`;
+  }
+}
+
+
+class Clothing extends Product{
+  type;
+  sizeChartLink;
+
+  constructor(product) {
+    super(product);
+    this.type = product.type;
+    this.sizeChartLink = product.sizeChartLink;
+  }
+
+  createSizeChartHTML() {
+    return `<a class='size-chart' href="assets/img/product/${this.sizeChartLink}" target="_blank">Size Chart</a>`;
+  }
 }
 
 
@@ -43,7 +63,9 @@ export const itemList = JSON.parse(localStorage.getItem('items')) || [
           "socks",
           "sports",
           "apparel"
-        ]
+        ],
+        type: 'clothing',
+        sizeChartLink: 'clothing-size-chart.png'
       },
       {
         id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
@@ -74,7 +96,7 @@ export const itemList = JSON.parse(localStorage.getItem('items')) || [
           "mens"
         ],
         type: "clothing",
-        sizeChartLink: "images/clothing-size-chart.png"
+        sizeChartLink: "clothing-size-chart.png"
       },
       {
         id: "54e0eccd-8f36-462b-b68a-8182611d9add",
@@ -198,7 +220,7 @@ export const itemList = JSON.parse(localStorage.getItem('items')) || [
           "apparel"
         ],
         type: "clothing",
-        sizeChartLink: "images/clothing-size-chart.png"
+        sizeChartLink: "clothing-size-chart.png"
       },
       {
         id: "aad29d11-ea98-41ee-9285-b916638cac4a",
@@ -341,7 +363,7 @@ export const itemList = JSON.parse(localStorage.getItem('items')) || [
           "apparel"
         ],
         type: "clothing",
-        sizeChartLink: "images/clothing-size-chart.png"
+        sizeChartLink: "clothing-size-chart.png"
       },
       {
         id: "a93a101d-79ef-4cf3-a6cf-6dbe532a1b4a",
@@ -390,7 +412,7 @@ export const itemList = JSON.parse(localStorage.getItem('items')) || [
           "mens"
         ],
         type: "clothing",
-        sizeChartLink: "images/clothing-size-chart.png"
+        sizeChartLink: "clothing-size-chart.png"
       },
       {
         id: "b86ddc8b-3501-4b17-9889-a3bad6fb585f",
@@ -689,5 +711,7 @@ export const itemList = JSON.parse(localStorage.getItem('items')) || [
         ]
       }
 ].map(item =>{
-  return new Product(item);
+  return (item.type !== 'clothing')? new Product(item) : new Clothing(item);
 })
+
+console.log(itemList);

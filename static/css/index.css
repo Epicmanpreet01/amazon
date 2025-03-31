@@ -129,6 +129,12 @@
 }
 
 
+.size-chart{
+    width: 100%;
+    font-size: 14px;
+    
+}
+
 .add-to-cart{
     cursor: pointer;
     padding-top: 10px;
