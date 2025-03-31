@@ -27,7 +27,7 @@ class Product{
     return normalisePrice(this.priceCents);
   }
 
-  createSizeChartHTML() {
+  extraInfoHTML() {
     return `<a style='visibility: hidden; cursor: pointer;' class='size-chart' href="assets/img/product/${this.sizeChartLink}" target="_blank">Size Chart</a>`;
   }
 }
@@ -43,7 +43,7 @@ class Clothing extends Product{
     this.sizeChartLink = product.sizeChartLink;
   }
 
-  createSizeChartHTML() {
+  extraInfoHTML() {
     return `<a class='size-chart' href="assets/img/product/${this.sizeChartLink}" target="_blank">Size Chart</a>`;
   }
 }
@@ -713,5 +713,3 @@ export const itemList = JSON.parse(localStorage.getItem('items')) || [
 ].map(item =>{
   return (item.type !== 'clothing')? new Product(item) : new Clothing(item);
 })
-
-console.log(itemList);
