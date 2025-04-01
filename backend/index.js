@@ -25,7 +25,7 @@ function addItems(item) {
           </div>
 
           
-          ${item.cextraInfoHTML()}
+          ${item.extraInfoHTML()}
 
           <div class="add-message add-message-${item.id}">
             <img src="assets/img/product/checkmark.png">
