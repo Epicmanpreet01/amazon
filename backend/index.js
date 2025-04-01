@@ -25,7 +25,9 @@ function addItems(item) {
           </div>
 
           
-          ${item.extraInfoHTML()}
+          <div class="extra-info-container">
+            ${item.extraInfoHTML()}
+          </div>
 
           <div class="add-message add-message-${item.id}">
             <img src="assets/img/product/checkmark.png">

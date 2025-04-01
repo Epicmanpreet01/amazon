@@ -128,11 +128,24 @@
     border: 1px solid rgb(254, 189, 105);
 }
 
-
-.size-chart{
+.extra-info-container{
     width: 100%;
+    display: flex;
+    column-gap: 10px;
+}
+
+.extra-info{
+    position: relative;
     font-size: 14px;
-    
+    color: rgb(192, 136, 32);
+}
+
+.extra-info:hover{
+    opacity: 0.8;
+}
+
+.extra-info:active{
+    opacity: 1;
 }
 
 .add-to-cart{

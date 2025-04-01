@@ -28,7 +28,8 @@ class Product{
   }
 
   extraInfoHTML() {
-    return `<a style='visibility: hidden; cursor: pointer;' class='size-chart' href="assets/img/product/${this.sizeChartLink}" target="_blank">Size Chart</a>`;
+    return `<a style='visibility: hidden; cursor: pointer;' class='size-chart' href="assets/img/product/${this.sizeChartLink}" target="_blank">Size Chart</a>
+    `;
   }
 }
 
@@ -44,7 +45,24 @@ class Clothing extends Product{
   }
 
   extraInfoHTML() {
-    return `<a class='size-chart' href="assets/img/product/${this.sizeChartLink}" target="_blank">Size Chart</a>`;
+    return `<a class='extra-info' href="assets/img/product/${this.sizeChartLink}" target="_blank">Size Chart</a>`;
+  }
+}
+
+class Appliances extends Product {
+  instructionsLink;
+  warrantyLink;
+
+  constructor(product) {
+    super(product);
+    this.instructionsLink = product.instructionsLink;
+    this.warrantyLink = product.warrantyLink;
+  }
+  extraInfoHTML() {
+    return `
+      <a class='extra-info' href="assets/img/product/${this.instructionsLink}" target="_blank">Instructions</a>
+      <a class='extra-info' href="assets/img/product/${this.warrantyLink}" target="_blank">Warranty</a>
+    `;
   }
 }
 
@@ -111,7 +129,10 @@ export const itemList = JSON.parse(localStorage.getItem('items')) || [
           "toaster",
           "kitchen",
           "appliances"
-        ]
+        ],
+        type: 'appliance',
+        instructionsLink: 'appliance-instructions.png',
+        warrantyLink: 'appliance-warranty.png'
       },
       {
         id: "3ebe75dc-64d2-4137-8860-1f5a963e534b",
@@ -711,5 +732,11 @@ export const itemList = JSON.parse(localStorage.getItem('items')) || [
         ]
       }
 ].map(item =>{
-  return (item.type !== 'clothing')? new Product(item) : new Clothing(item);
+  if(item.type === 'clothing') {
+    return new Clothing(item);
+  } else if(item.type === 'appliance') {
+    return new Appliances(item);
+  } else{
+    return new Product(item);
+  }
 })
