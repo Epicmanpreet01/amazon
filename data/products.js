@@ -1,6 +1,6 @@
 import { normalisePrice } from "../backend/utils.js";
 
-class Product{
+export class Product{
   id;
   image;
   name;
@@ -34,7 +34,7 @@ class Product{
 }
 
 
-class Clothing extends Product{
+export class Clothing extends Product{
   type;
   sizeChartLink;
 
@@ -49,7 +49,7 @@ class Clothing extends Product{
   }
 }
 
-class Appliances extends Product {
+export class Appliances extends Product {
   instructionsLink;
   warrantyLink;
 
