@@ -1,4 +1,4 @@
-import {cart, addCart, getCartQuantity} from '../data/cart.js'
+import {cart} from '../data/cart.js'
 import {itemList} from '../data/products.js'
 
 function addItems(item) {

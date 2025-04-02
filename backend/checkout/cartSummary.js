@@ -1,4 +1,4 @@
-import { cart, removeCartItem, updateItemQuantity, updateDeliveryId } from '../../data/cart.js';
+import { cart } from '../../data/cart.js';
 import { itemList } from '../../data/products.js';
 import { getDelivery, delivery } from '../../data/delivery.js';
 import checkOutLoader from '../checkout.js';
@@ -7,7 +7,7 @@ export default function loadCart() {
 
     const cartItems = document.querySelector('.cart-items');
     cartItems.innerHTML = '';
-    cart.forEach(function (cartItem) {
+    cart.cartItems.forEach(function (cartItem) {
         const productId = cartItem.productId;
 
         let product = {};
@@ -160,19 +160,22 @@ export default function loadCart() {
 
     function setDelivery(productId, deliveryId) {
       let deliveryDate = '';
-      const deliveryDateEle = document.querySelector(`.delivery-date-${productId}`);
+      const deliveryDateEle = document.querySelectorAll(`.delivery-date-${productId}`);
       delivery.forEach(element =>{
           if(element.id === deliveryId){
               deliveryDate = getDelivery(element.deliveryTime);
               return;
           }
       })
-      deliveryDateEle.innerText = "Delivery date: " + deliveryDate;
+      deliveryDateEle.forEach(dateElement => {
+        dateElement.innerText = "Delivery date: " + deliveryDate;
+      })
+      
     }
     document.querySelectorAll('.item-quantity-delete, .small-cart-item .item-quantity-delete').forEach(element => {
         element.addEventListener('click', function() {
             const id = element.dataset.productId;
-            removeCartItem(id);
+            cart.removeCartItem(id);
             checkOutLoader();
         });
     });
@@ -193,7 +196,7 @@ export default function loadCart() {
         item.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 const id = item.dataset.productId;
-                updateItemQuantity(id, item.value);
+                cart.updateItemQuantity(id, item.value);
                 checkOutLoader();
                 document.querySelectorAll(`.item-quantity-container-${id}`).forEach(container => {
                     container.classList.remove('is-updating');
@@ -206,7 +209,7 @@ export default function loadCart() {
         element.addEventListener('click', function() {
             const id = element.dataset.productId;
             const value = document.querySelector(`.input-quantity-${id}`).value;
-            updateItemQuantity(id, value);
+            cart.updateItemQuantity(id, value);
             checkOutLoader();
             document.querySelectorAll('.item-quantity-' + id).forEach(qty => {
                 qty.innerText = `Quantity: ${value}`;
@@ -222,7 +225,7 @@ export default function loadCart() {
             const productId = element.dataset.productId;
             const deliveryId = element.children[0].dataset.deliveryId;
             element.children[0].checked = true;
-            updateDeliveryId(productId, deliveryId);
+            cart.updateDeliveryId(productId, deliveryId);
             checkOutLoader();
         });
     });
