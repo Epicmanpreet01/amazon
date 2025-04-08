@@ -1,8 +1,8 @@
 import { itemList } from "./products.js";
-import { getItemShippingPrice } from "./delivery.js";
+import { deliveryObject } from "./delivery.js";
 
 
-class Cart{
+export class Cart{
   cartItems;
   #localStorageKey;
 
@@ -73,7 +73,7 @@ class Cart{
   updateItemQuantity(id, newQuantity) {
     newQuantity = parseInt(newQuantity);
     if(newQuantity === 0) {
-      removeCartItem(id);
+      this.removeCartItem(id);
     } else if(newQuantity >0){
       this.cartItems.forEach(item => {
         if(item.productId === id){
@@ -110,7 +110,7 @@ class Cart{
     let shippingPrice = 0;
     this.cartItems.forEach(element => {
         if(['1','2','3'].includes(element.deliveryId)){
-          shippingPrice += getItemShippingPrice(element.deliveryId);
+          shippingPrice += deliveryObject.getItemShippingPrice(element.deliveryId);
         } else{
           element.deliveryId = '1';
         }

@@ -77,7 +77,7 @@ function fadeAddMessage(id){
 }
 
 const updateCartQuantity = () =>{
-  let cartQuantity = getCartQuantity();
+  let cartQuantity = cart.getCartQuantity();
   const cartItemNo = document.querySelector('.cart-item-no')
   if(!cartQuantity){
     cartItemNo.style.display = 'none';
@@ -99,7 +99,7 @@ document.querySelectorAll('.add-to-cart').forEach(function(element) {
     }, 2000);
     const quantity = parseInt(document.querySelector('.item-no-'+productId).value);
     document.getElementById(productId).value = '1';
-    addCart(productId,quantity);
+    cart.addCart(productId,quantity);
     updateCartQuantity();
   })
   clearTimeout(addMessageTimeOutId);

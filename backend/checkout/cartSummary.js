@@ -32,7 +32,6 @@ export default function loadCart() {
         document.querySelector('.empty-cart').classList.remove('is-empty');
     }
 
-
     function addCart(product, quantity) {
         return `<div class="cart-item big-cart-item cart-item-${product.id}">
                         <section class="item-header-section">
