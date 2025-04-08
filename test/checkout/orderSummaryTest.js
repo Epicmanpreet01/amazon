@@ -1,4 +1,3 @@
-/*
 import loadOrderSummary from "../../backend/checkout/orderSummary.js";
 import { Cart } from "../../data/cart.js";
 import { normalisePrice } from "../../backend/utils.js";
@@ -23,8 +22,8 @@ describe('integration testing orderSummary render', () => {
       <div class="empty-cart"></div>
       <div class="item-no"></div>
       <div class="order-summary"></div>
-    `
-    loadOrderSummary();
+    `;
+    loadOrderSummary(cart,cart.getCartQuantity());
   })
 
   afterEach(()=> {
@@ -32,8 +31,6 @@ describe('integration testing orderSummary render', () => {
   })
 
   it('order summary UI loads when cart not empty', () => {
-    loadOrderSummary();
-    console.log(document.querySelector('.order-summary').innerHTML);
     const cartQuantity = cart.getCartQuantity();
     const totalPrice = cart.getTotalPrice();
     const shippingPrice = cart.getShippingPrice();
@@ -61,4 +58,4 @@ describe('integration testing orderSummary render', () => {
       document.querySelector('.total-price').innerText
     ).toContain(normalisePrice((totalPrice+shippingPrice) + (totalPrice+shippingPrice)*0.1));
   })
-})*/
+})

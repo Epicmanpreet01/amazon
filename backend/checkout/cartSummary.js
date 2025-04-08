@@ -1,9 +1,8 @@
-import { cart } from '../../data/cart.js';
 import { itemList } from '../../data/products.js';
 import { deliveryObject } from '../../data/delivery.js';
 import checkOutLoader from '../checkout.js';
 
-export default function loadCart() {
+export default function loadCart(cart) {
 
     const cartItems = document.querySelector('.cart-items');
     cartItems.innerHTML = '';
@@ -24,11 +23,11 @@ export default function loadCart() {
         setDelivery(productId, cartItem.deliveryId);
     })
 
-    if(!cartItems.innerHTML) {
-        document.querySelector('.cart-items').style.display = 'none';
+    if (!cart.cartItems.length) {
+        cartItems.style.display = 'none';
         document.querySelector('.empty-cart').classList.add('is-empty');
-    } else{
-        document.querySelector('.cart-items').style.display = 'flex';
+    } else {
+        cartItems.style.display = 'flex';
         document.querySelector('.empty-cart').classList.remove('is-empty');
     }
 
@@ -175,7 +174,7 @@ export default function loadCart() {
         element.addEventListener('click', function() {
             const id = element.dataset.productId;
             cart.removeCartItem(id);
-            checkOutLoader();
+            checkOutLoader(cart);
         });
     });
   
@@ -196,7 +195,7 @@ export default function loadCart() {
             if (event.key === 'Enter') {
                 const id = item.dataset.productId;
                 cart.updateItemQuantity(id, item.value);
-                checkOutLoader();
+                checkOutLoader(cart);
                 document.querySelectorAll(`.item-quantity-container-${id}`).forEach(container => {
                     container.classList.remove('is-updating');
                 });
@@ -209,7 +208,7 @@ export default function loadCart() {
             const id = element.dataset.productId;
             const value = document.querySelector(`.input-quantity-${id}`).value;
             cart.updateItemQuantity(id, value);
-            checkOutLoader();
+            checkOutLoader(cart);
             document.querySelectorAll('.item-quantity-' + id).forEach(qty => {
                 qty.innerText = `Quantity: ${value}`;
             });
@@ -225,7 +224,7 @@ export default function loadCart() {
             const deliveryId = element.children[0].dataset.deliveryId;
             element.children[0].checked = true;
             cart.updateDeliveryId(productId, deliveryId);
-            checkOutLoader();
+            checkOutLoader(cart);
         });
     });
 }

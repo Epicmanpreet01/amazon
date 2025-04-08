@@ -1,8 +1,7 @@
-import { cart } from '../../data/cart.js';
 import {normalisePrice} from '../utils.js';
 
 
-export default function loadOrderSummary(quantity=cart.getCartQuantity()) {
+export default function loadOrderSummary(cart,quantity) {
     const totalItemPrice = cart.getTotalPrice();
     const shippingPrice = cart.getShippingPrice();
     const totalBeforeTax = totalItemPrice + shippingPrice;

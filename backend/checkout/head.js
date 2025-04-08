@@ -1,5 +1,3 @@
-import { cart } from "../../data/cart.js";
-
-export default function loadHeader(quantity=cart.getCartQuantity()) {
+export default function loadHeader(quantity) {
   document.querySelector('.item-no').innerHTML = quantity;
 }
