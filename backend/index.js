@@ -1,7 +1,9 @@
 import {cart} from '../data/cart.js'
-import {itemList} from '../data/products.js'
+import {itemList, loadProducts} from '../data/products.js'
 
-function addItems(item) {
+loadProducts();
+
+export function addItems(item) {
   return `<div class="item" id="${item.id}">
           <div class="img-container">
               <img src="assets/img/product/${item.image}" alt="item-pic" class="item-img">
@@ -51,7 +53,8 @@ function searchItems(key) {
 
   document.querySelector('.search-bar').value = "";
 }
-document.querySelector('.item-grid').innerHTML = itemList.map(addItems).join("");
+
+
 
 document.querySelector('.search-bar').addEventListener('keydown', function (event) {
   if (event.key === 'Enter') {
