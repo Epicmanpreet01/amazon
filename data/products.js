@@ -1,5 +1,4 @@
 import { normalisePrice } from "../backend/utils.js";
-import {addItems} from '../backend/index.js';
 
 export class Product{
   id;
@@ -69,7 +68,7 @@ export class Appliances extends Product {
 
 export let itemList = []; 
 
-export function loadProducts() {
+export function loadProducts(fun) {
 
   const xhr = new XMLHttpRequest();
 
@@ -84,7 +83,8 @@ export function loadProducts() {
         return new Product(item);
       }
     });
-    document.querySelector('.item-grid').innerHTML = itemList.map(addItems).join("");
+
+    fun();
   })
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send();
