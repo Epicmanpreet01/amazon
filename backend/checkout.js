@@ -8,7 +8,7 @@ import { loadProducts } from '../data/products.js';
 
 export default function checkOutLoader(cart = cartObj) {
     loadCart(cart);
-    loadHeader(cart,cart.getCartQuantity());
+    loadHeader(cart.getCartQuantity());
     loadOrderSummary(cart, cart.getCartQuantity());
 }
 

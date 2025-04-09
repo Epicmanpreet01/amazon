@@ -85,6 +85,7 @@ function loadHomePage() {
   const updateCartQuantity = () =>{
     let cartQuantity = cart.getCartQuantity();
     const cartItemNo = document.querySelector('.cart-item-no')
+    console.log(cartQuantity);
     if(!cartQuantity){
       cartItemNo.style.display = 'none';
       return;
@@ -94,7 +95,7 @@ function loadHomePage() {
     cartItemNo.innerText = cartQuantity;
   } 
   
-  document.addEventListener("DOMContentLoaded", updateCartQuantity);
+  updateCartQuantity();
   
   document.querySelectorAll('.add-to-cart').forEach(function(element) {
     element.addEventListener('click', function() {
