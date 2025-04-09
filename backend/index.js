@@ -1,7 +1,13 @@
 import {cart} from '../data/cart.js'
 import {itemList, loadProducts} from '../data/products.js'
 
-loadProducts(loadHomePage);
+new Promise((resolve) => {
+  loadProducts(() => {
+    resolve();
+  });
+}).then(() => {
+  loadHomePage();
+})
 
 function loadHomePage() {
   function addItems(item) {
