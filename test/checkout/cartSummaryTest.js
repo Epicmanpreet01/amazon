@@ -1,10 +1,17 @@
 import loadCart from "../../backend/checkout/cartSummary.js";
 import { Cart } from "../../data/cart.js";
 import { deliveryObject } from "../../data/delivery.js";
-import { itemList } from "../../data/products.js";
+import { itemList, loadProducts } from "../../data/products.js";
 
 describe('Integrated test for rendering cart summary', () =>{
   const cart = new Cart('test-cart-summary');
+
+  beforeAll((done) =>{
+    loadProducts(() => {
+      done();
+    });
+  })
+
   beforeEach(() => {
     cart.cartItems = [
       {

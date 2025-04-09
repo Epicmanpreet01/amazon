@@ -77,8 +77,6 @@ export function loadProducts(fun) {
 
       if(item.type === 'clothing') {
         return new Clothing(item);
-      } else if(item.type === 'appliance') {
-        return new Appliances(item);
       } else{
         return new Product(item);
       }

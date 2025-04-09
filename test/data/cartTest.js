@@ -1,7 +1,14 @@
 import { Cart } from '../../data/cart.js';
+import { loadProducts } from '../../data/products.js';
 
 describe('Test suites: cart.js', () => {
   const cart = new Cart('test-cart');
+
+  beforeAll((done) => {
+    loadProducts();
+    done();
+  })
+
   describe('Test suite: addCart', () => {
     
     beforeEach(() =>{
