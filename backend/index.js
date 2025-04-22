@@ -1,13 +1,8 @@
 import {cart} from '../data/cart.js'
 import {itemList, loadProducts} from '../data/products.js'
 
-new Promise((resolve) => {
-  loadProducts(() => {
-    resolve();
-  });
-}).then(() => {
-  loadHomePage();
-})
+
+loadProducts(loadHomePage);
 
 function loadHomePage() {
   function addItems(item) {
@@ -91,7 +86,6 @@ function loadHomePage() {
   const updateCartQuantity = () =>{
     let cartQuantity = cart.getCartQuantity();
     const cartItemNo = document.querySelector('.cart-item-no')
-    console.log(cartQuantity);
     if(!cartQuantity){
       cartItemNo.style.display = 'none';
       return;
