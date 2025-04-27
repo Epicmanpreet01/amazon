@@ -1,8 +1,8 @@
-import {cart as cartObj, loadCartItems} from '../data/cart.js';
+import {cart as cartObj} from '../data/cart.js';
 import loadCart from "./checkout/cartSummary.js";
 import loadHeader from './checkout/head.js';
 import loadOrderSummary from "./checkout/orderSummary.js";
-import { loadProducts } from '../data/products.js';
+import { asyncLoadProducts, loadProducts } from '../data/products.js';
 
 
 loadProducts(checkOutLoader);

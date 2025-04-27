@@ -78,3 +78,12 @@ export function loadProducts(fun) {
       })
         .then(fun);
 }
+
+
+export async function asyncLoadProducts(fun) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  await xhr.send();
+
+  fun();
+}

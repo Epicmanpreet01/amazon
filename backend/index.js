@@ -1,5 +1,5 @@
 import {cart} from '../data/cart.js'
-import {itemList, loadProducts} from '../data/products.js'
+import {itemList, loadProducts, asyncLoadProducts} from '../data/products.js'
 
 
 loadProducts(loadHomePage);
