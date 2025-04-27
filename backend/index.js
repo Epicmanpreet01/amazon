@@ -1,8 +1,13 @@
 import {cart} from '../data/cart.js'
-import {itemList, loadProducts, asyncLoadProducts} from '../data/products.js'
+import {itemList, loadProducts} from '../data/products.js'
 
 
-loadProducts(loadHomePage);
+async function indexLoader() {
+  await loadProducts();
+  loadHomePage();
+}
+
+indexLoader();
 
 function loadHomePage() {
   function addItems(item) {

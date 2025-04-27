@@ -68,22 +68,12 @@ export class Appliances extends Product {
 
 export let itemList = []; 
 
-export function loadProducts(fun) {
-  fetch('https://supersimplebackend.dev/products')
-    .then(response => response.json())
-      .then((data) => {
-        itemList = data.map((element) => {
-          return (element.type === 'clothing')? new Clothing(element) : new Product(element); 
-        })
-      })
-        .then(fun);
-}
-
-
-export async function asyncLoadProducts(fun) {
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://supersimplebackend.dev/products');
-  await xhr.send();
-
-  fun();
+export function loadProducts() {
+  return fetch('https://supersimplebackend.dev/products').then((response) => {
+    return response.json();
+  }).then((value) => {
+    itemList = value.map((element) => {
+      return (element.type === 'clothing')? new Clothing(element) : new Product(element);
+    })
+  })
 }
