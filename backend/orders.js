@@ -2,6 +2,7 @@ import { orders } from "../data/order.js";
 import { normalisePrice } from "./utils.js";
 import { deliveryObject } from "../data/delivery.js";
 import { itemList, loadProducts } from "../data/products.js";
+import { cart } from '../data/cart.js';
 
 
 export default async function orderLoader() {
@@ -20,6 +21,7 @@ function loadOrders() {
   })
 
   orderListElement.innerHTML = orderListHTML; 
+  
 
   function returnOrderHTML(order) {
     return `<div class="order">
@@ -52,7 +54,7 @@ function loadOrders() {
                   <p class="order-item-name">${searchProduct(product.productId).name}</p>
                   <p class="order-item-delivery-info"><span class="delivery-status">${(deliveryObject.getDeliveryStatus(product.deliveryId)? 'Delivered on' : 'Arriving on' )} </span>on: <span class="delivery-info-date">${deliveryObject.getDelivery(product.deliveryId)}</span></p>
                   <p class="order-item-quantity">Quantity: <span>${product.quantity}</span></p>
-                  <button class="buy-again-btn">
+                  <button class="buy-again-btn buy-again-btn-${product.productId}" data-product-id = ${product.productId}>
                       <img src="assets/img/orders/buy-again.png" alt="buy-again">
                       <span>Buy it again</span>
                   </button>
@@ -75,7 +77,38 @@ function loadOrders() {
     })
     return product;
   }
+
+  const updateCartQuantity = () =>{
+    let cartQuantity = cart.getCartQuantity();
+    const cartItemNo = document.querySelector('.cart-item-no')
+    if(!cartQuantity){
+      cartItemNo.style.display = 'none';
+      return;
+    }
+  
+    cartItemNo.style.display = 'inline-block';
+    cartItemNo.innerText = cartQuantity;
+  } 
+  updateCartQuantity();
+
+
+  document.querySelectorAll('.buy-again-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      cart.addCart(btn.dataset.productId,1);
+      console.log(btn.dataset.productId);
+      btn.innerHTML = `<img src="assets/img/orders/buy-again.png" alt="buy-again">
+      <span>Added</span>`;
+      setTimeout(() => {
+      btn.innerHTML = `
+        <img src="assets/img/orders/buy-again.png" alt="buy-again">
+        <span>Buy it again</span>`
+      }, 3000);
+      updateCartQuantity();
+    })
+  })
+
 }
+
 
 
 

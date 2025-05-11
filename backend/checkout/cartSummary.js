@@ -1,6 +1,7 @@
-import { itemList } from '../../data/products.js';
+import { itemList, loadProducts } from '../../data/products.js';
 import { deliveryObject } from '../../data/delivery.js';
 import checkOutLoader from '../checkout.js';
+
 
 export default function loadCart(cart) {
 
