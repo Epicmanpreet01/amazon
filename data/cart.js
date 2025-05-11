@@ -133,6 +133,11 @@ export class Cart{
   
       return totalItemPrice;
   }
+
+  ordered() {
+    cart.cartItems = [];
+    this.#saveCart();
+  }
 }
 
 export function loadCartItems(fun) {

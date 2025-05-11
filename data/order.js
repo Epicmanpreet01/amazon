@@ -1,43 +1,34 @@
-class Order {
+class OrderList {
   #localStorageKey;
-  orderList = JSON.parse(localStorage.getItem(this.#localStorageKey)) || {
-    'b04750f8-1516-09d3-6fbd-989c6dae0ac4' : [{
-      productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-      quantity: 1,
-      deliveryId: '1'
-    }, {
-      productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-      quantity: 2,
-      deliveryId: '2'
-    }], 'b04750f8-1516-09d3-6fbd-989c6dae0ac5' : [{
-      productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-      quantity: 1,
-      deliveryId: '1'
-    }, {
-      productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-      quantity: 2,
-      deliveryId: '2'
-    }]
-  }
+  orderList;
 
   constructor(localStorageKey) {
     this.#localStorageKey = localStorageKey;
+    this.orderList = this.#loadOrders() || [];
   }
 
   #loadOrders() {
-    this.orderList = JSON.parse(localStorage.getItem(this.#localStorageKey));
+    return JSON.parse(localStorage.getItem(this.#localStorageKey));
   }
 
   #updateOrders() {
-    this.orderList = localStorage.setItem(JSON.stringify(this.#localStorageKey));
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.orderList));
   }
 
+  createUniqueID() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  }
 
+  createOrderObject(cart) {
+    this.orderList.unshift({
+      id : this.createUniqueID(),
+      orderTime : new Date().toLocaleString(),
+      totalCostCents : (cart.getTotalPrice() + cart.getShippingPrice()) * 1.1,
+      products : cart.cartItems
+    });
 
-  addOrder(cartItems) {
-    this.orderList[]
+    this.#updateOrders();
   }
 }
 
-
-const orders = new Order('orders');
+export const orders = new OrderList('orders');

@@ -31,5 +31,19 @@ export const deliveryObject = {
     }
   
     return 0;
+  },
+
+  getDeliveryStatus(deliveryid) {
+    let mode = 0;
+    if(deliveryid === 1) {
+      mode = 7;
+    } else if(deliveryid === 2) {
+      mode = 5
+    } else{
+      mode = 3;
+    }
+    const today = dayjs().format('dddd,'+'MMMM D');
+    const deliveryDate = this.getDelivery(mode);
+    return today === deliveryDate;
   }
 }

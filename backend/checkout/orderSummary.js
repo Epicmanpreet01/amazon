@@ -1,4 +1,6 @@
+import { orders } from '../../data/order.js';
 import {normalisePrice} from '../utils.js';
+
 
 
 export default function loadOrderSummary(cart,quantity) {
@@ -7,7 +9,6 @@ export default function loadOrderSummary(cart,quantity) {
     const totalBeforeTax = totalItemPrice + shippingPrice;
     const estimatedTax = totalBeforeTax * 0.1;
     const orderTotal = totalBeforeTax + estimatedTax;
-
     const orderSummaryHTML = `<div class="order-summary-header">
                     <p>Order Summary</p>
                 </div>
@@ -38,10 +39,8 @@ export default function loadOrderSummary(cart,quantity) {
                     <p class="total-lbl">Order total:</p>
                     <p class="total">$<span class="total-price">${normalisePrice(orderTotal)}</span></p>
                 </div>
-
-                <a href="order.html">
-                    <button class="place-order-btn" ${checkEmpty()}>Place your order</button>
-                </a>`
+                
+                <button class="place-order-btn js-place-order-btn" ${checkEmpty()}>Place your order</button>`
 
     document.querySelector('.order-summary').innerHTML = orderSummaryHTML;
 
@@ -57,4 +56,10 @@ export default function loadOrderSummary(cart,quantity) {
         return (document.querySelector('.cart-items').style.display === 'none')? 'disabled' : '';
     }
 
+    document.querySelector('.js-place-order-btn').addEventListener('click', async function() {
+        orders.createOrderObject(cart);
+        console.log(orders.orderList);
+        cart.ordered();
+        window.location.href = 'order.html';
+    })
 }
