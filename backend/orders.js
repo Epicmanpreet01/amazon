@@ -60,7 +60,7 @@ function loadOrders() {
                   </button>
               </div>
 
-              <button class="track-package-btn">Track package</button>
+              <button class="track-package-btn js-track-package-btn">Track package</button>
           </div></div>`
     })
 
@@ -104,6 +104,12 @@ function loadOrders() {
         <span>Buy it again</span>`
       }, 3000);
       updateCartQuantity();
+    })
+  })
+
+  document.querySelectorAll('.js-track-package-btn').forEach((btnEle) => {
+    btnEle.addEventListener('click', () => {
+      window.location.href = 'track.html';
     })
   })
 
