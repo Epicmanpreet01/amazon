@@ -58,7 +58,6 @@ export default function loadOrderSummary(cart,quantity) {
 
     document.querySelector('.js-place-order-btn').addEventListener('click', async function() {
         orders.createOrderObject(cart);
-        console.log(orders.orderList);
         cart.ordered();
         window.location.href = 'order.html';
     })

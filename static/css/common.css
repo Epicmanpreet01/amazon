@@ -49,6 +49,7 @@ header{
 .search{
     flex: 1;
     margin-top: 5px;
+    margin-left: 80px;
     max-width: 850px;
     display: flex;
     margin-right: 18px;
@@ -158,6 +159,9 @@ header{
 @media (max-width: 572px) {
     .logo-mobile-img{
         display: inline;
+    }
+    .search{
+        margin-left: 0;
     }
 
     .logo-pc-img{

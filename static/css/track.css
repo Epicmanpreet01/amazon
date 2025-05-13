@@ -73,13 +73,32 @@ main{
   color: green;
 }
 
-.status-bar::after{
-  content: '';
+.status-bar-progress{
   border-radius: 10px;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   width: 20%;
+  background-color: green;
+}
+
+.complete {
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: green;
+}
+
+.preparing {
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 30%;
   background-color: green;
 }

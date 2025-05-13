@@ -14,13 +14,24 @@ export const deliveryObject = {
       deliveryTime: 3
     }
   ],
-  getDelivery(mode) {
-    const today = dayjs();
-    let delivery =  today.add(mode, 'days');
-    while(['Sunday','Saturday'].includes(delivery.format('dddd'))){
-      delivery = delivery.add(1,'days');
+  getDelivery(mode, referenceDate = 0) {
+    let baseDate;
+
+    if (typeof referenceDate === 'string') {
+      const datePart = referenceDate.split(',')[0].trim();
+      baseDate = dayjs(datePart, 'M/D/YYYY');
     }
-    return delivery.format('dddd,'+' MMMM D');
+    if (!baseDate || !baseDate.isValid()) {
+      baseDate = dayjs();
+    }
+
+    let delivery = baseDate.add(mode, 'days');
+
+    while (['Sunday', 'Saturday'].includes(delivery.format('dddd'))) {
+      delivery = delivery.add(1, 'days');
+    }
+
+    return delivery.format('dddd, MMMM D');
   },
 
   getItemShippingPrice(deliveryId) {
@@ -33,17 +44,14 @@ export const deliveryObject = {
     return 0;
   },
 
-  getDeliveryStatus(deliveryid) {
-    let mode = 0;
-    if(deliveryid === 1) {
-      mode = 7;
-    } else if(deliveryid === 2) {
-      mode = 5
-    } else{
-      mode = 3;
-    }
-    const today = dayjs().format('dddd,'+'MMMM D');
-    const deliveryDate = this.getDelivery(mode);
+  getDeliveryStatus(deliveryId, referenceDate) {
+    const mode = this.getDeliveryMode(deliveryId);
+    const today = dayjs().format('dddd,MMMM D');
+    const deliveryDate = this.getDelivery(mode, referenceDate); 
     return today === deliveryDate;
+  },
+
+  getDeliveryMode(deliveryId) {
+    return 7 - ((Number(deliveryId) - 1) * 2);
   }
 }

@@ -30,19 +30,19 @@ function loadOrders() {
                         Order Placed: <span class="value">${order.orderTime}</span>
                     </span>
                     <span class="order-header-info total">
-                        Total: <span class="value">${normalisePrice(order.totalCostCents)}</span>
+                        Total: <span class="value">$${normalisePrice(order.totalCostCents)}</span>
                     </span>
                     <span class="order-header-info">
                         Order ID: <span class="value">${order.id}</span>
                     </span>
                 </div>
                 <div class="order-main">
-                  ${returnProductHTML(order.products)}
+                  ${returnProductHTML(order.products, order)}
                 </div>
             </div>`
   }
 
-  function returnProductHTML(products) {
+  function returnProductHTML(products, order) {
     let productHTML = '';
     products.forEach(product => {
       productHTML += `<div class = 'order-item'><div class="order-item-img-container">
@@ -52,7 +52,7 @@ function loadOrders() {
           <div class="order-item-info-container">
               <div class="order-item-info">
                   <p class="order-item-name">${searchProduct(product.productId).name}</p>
-                  <p class="order-item-delivery-info"><span class="delivery-status">${(deliveryObject.getDeliveryStatus(product.deliveryId)? 'Delivered on' : 'Arriving on' )} </span>on: <span class="delivery-info-date">${deliveryObject.getDelivery(product.deliveryId)}</span></p>
+                  <p class="order-item-delivery-info"><span class="delivery-status">${(deliveryObject.getDeliveryStatus(product.deliveryId, order.orderTime)? 'Delivered on' : 'Arriving on' )} </span>: <span class="delivery-info-date">${deliveryObject.getDelivery(deliveryObject.getDeliveryMode(product.deliveryId),order.orderTime)}</span></p>
                   <p class="order-item-quantity">Quantity: <span>${product.quantity}</span></p>
                   <button class="buy-again-btn buy-again-btn-${product.productId}" data-product-id = ${product.productId}>
                       <img src="assets/img/orders/buy-again.png" alt="buy-again">
@@ -60,7 +60,9 @@ function loadOrders() {
                   </button>
               </div>
 
-              <button class="track-package-btn js-track-package-btn">Track package</button>
+              <a href='track.html?orderId=${order.id}&productId=${product.productId}&deliveryId=${product.deliveryId}'>
+                  <button class="track-package-btn js-track-package-btn" data-order-id=${order.id} data-product-id = ${product.productId}>Track package</button>
+              </a>
           </div></div>`
     })
 
@@ -107,15 +109,8 @@ function loadOrders() {
     })
   })
 
-  document.querySelectorAll('.js-track-package-btn').forEach((btnEle) => {
-    btnEle.addEventListener('click', () => {
-      window.location.href = 'track.html';
-    })
-  })
+
 
 }
-
-
-
 
 orderLoader();

@@ -29,6 +29,16 @@ class OrderList {
 
     this.#updateOrders();
   }
+
+  returnItemObj(orderId, productId) {
+    const order = this.orderList.find(order => order.id === orderId);
+    const item = order.products.find(item => item.productId === productId);
+    return item;
+  }
+
+  returnOrderTime(orderId) {
+    return this.orderList.find(item => item.id === orderId).orderTime;
+  }
 }
 
 export const orders = new OrderList('orders');
