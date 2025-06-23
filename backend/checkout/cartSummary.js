@@ -171,15 +171,15 @@ export default function loadCart(cart) {
       })
       
     }
-    document.querySelectorAll('.item-quantity-delete, .small-cart-item .item-quantity-delete').forEach(element => {
-        element.addEventListener('click', function() {
-            const id = element.dataset.productId;
-            cart.removeCartItem(id);
-            checkOutLoader(cart);
-        });
+    document.querySelectorAll('.item-quantity-delete').forEach(element => {
+    element.addEventListener('click', function () {
+        const id = element.dataset.productId;
+        cart.removeCartItem(id);
+        checkOutLoader(cart);
+    });
     });
   
-    document.querySelectorAll('.item-quantity-update, .small-cart-item .item-quantity-update').forEach(element => {
+    document.querySelectorAll('.item-quantity-update').forEach(element => {
         element.addEventListener('click', function() {
             const id = element.dataset.productId;
             document.querySelectorAll('.item-quantity-container-' + id).forEach(container => {
@@ -191,7 +191,7 @@ export default function loadCart(cart) {
         });
     });
   
-    document.querySelectorAll('.input-quantity, .small-cart-item .input-quantity').forEach(item => {
+    document.querySelectorAll('.input-quantity').forEach(item => {
         item.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 const id = item.dataset.productId;
@@ -204,7 +204,7 @@ export default function loadCart(cart) {
         });
     });
   
-    document.querySelectorAll('.item-quantity-save, .small-cart-item .item-quantity-save').forEach(element => {
+    document.querySelectorAll('.item-quantity-save').forEach(element => {
         element.addEventListener('click', function() {
             const id = element.dataset.productId;
             const value = document.querySelector(`.input-quantity-${id}`).value;
@@ -219,7 +219,7 @@ export default function loadCart(cart) {
         });
     });
   
-    document.querySelectorAll('.delivery-option-container, .small-cart-item .delivery-option-container').forEach(element => {
+    document.querySelectorAll('.delivery-option-container').forEach(element => {
         element.addEventListener('click', function() {
             const productId = element.dataset.productId;
             const deliveryId = element.children[0].dataset.deliveryId;

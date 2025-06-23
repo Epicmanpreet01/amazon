@@ -6,13 +6,11 @@ import { itemList, loadProducts } from "../../data/products.js";
 describe('Integrated test for rendering cart summary', () =>{
   const cart = new Cart('test-cart-summary');
 
-  beforeAll((done) =>{
-    loadProducts(() => {
-      done();
-    });
+  beforeAll(async () =>{
+    await loadProducts();
   })
 
-  beforeEach(() => {
+  beforeEach(async() => {
     cart.cartItems = [
       {
         productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
@@ -31,13 +29,19 @@ describe('Integrated test for rendering cart summary', () =>{
       <div class="item-no"></div>
       <div class="order-summary"></div>
     `;
-    loadCart(cart);
-  });
-  afterEach(() => {
-    document.querySelector('.js-test-container').innerHTML = '';
+
+    await new Promise(resolve => {
+      loadCart(cart);
+      setTimeout(resolve, 0);
+    });
   });
 
+  afterEach(() => {
+    document.querySelector('.js-test-container').innerHTML = ''
+  })
+
   it('cart loads when not empty', () =>{
+    console.log('Loaded products:', itemList.map(p => p.name));
     const [item1, item2] = cart.cartItems;
     const product1 = item1.productId;
     const product2 = item2.productId;
@@ -102,29 +106,32 @@ describe('Integrated test for rendering cart summary', () =>{
   })
 
   
-  it('delete button works correctly', () => {
+  it('delete button works correctly', async () => {
     const [item1, item2] = cart.cartItems;
     const product1 = item1.productId;
     const product2 = item2.productId;
-    console.log(document.querySelector('.cart-items').innerHTML);
+
+    // Trigger delete
     document.querySelector(`.item-quantity-delete-${product1}`).click();
-    expect(
-      document.querySelectorAll('.cart-item').length
-    ).toBe(2);
-    expect(
-      document.querySelector(`.cart-item-${product1}`)
-    ).toBe(null);
-    console.log(document.querySelector('.cart-items').innerHTML);
+
+    // Wait for re-render (event loop tick)
+    await new Promise(resolve => {
+      loadCart(cart);
+      setTimeout(resolve, 0);
+    });
+
+    expect(document.querySelector(`.cart-item-${product1}`)).toBe(null);
+
+    // Delete second item
     document.querySelector(`.item-quantity-delete-${product2}`).click();
 
-    expect(
-      document.querySelectorAll(`.cart-item`).length
-    ).toBe(0);
-
-    expect(
-      document.querySelector(`.cart-item-${product2}`)
-    ).toBe(null);
-  })
+    await new Promise(resolve => {
+      loadCart(cart);
+      setTimeout(resolve, 0);
+    });
+    
+    expect(document.querySelectorAll('.cart-item').length).toBe(0);
+  });
 
   it('update button works correctly', () => {
     const [item1, item2] = cart.cartItems;

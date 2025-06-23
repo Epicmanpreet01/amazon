@@ -4,9 +4,8 @@ import { loadProducts } from '../../data/products.js';
 describe('Test suites: cart.js', () => {
   const cart = new Cart('test-cart');
 
-  beforeAll((done) => {
-    loadProducts();
-    done();
+  beforeAll(async() => {
+    await loadProducts();
   })
 
   describe('Test suite: addCart', () => {
